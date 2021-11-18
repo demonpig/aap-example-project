@@ -15,7 +15,7 @@
       ansible.builtin.ping:
 
     - name: Add public ssh key to server
-      ansible.builtin.posix:
+      ansible.posix.authorized_key:
         user: awx
         state: present
         key: https://github.com/demonpig.keys
