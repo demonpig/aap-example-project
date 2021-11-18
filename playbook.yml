@@ -1,0 +1,20 @@
+---
+
+- name: Example Playbook
+  hosts: all
+  become: yes
+  become_user: root
+
+  post_tasks:
+    - name: Install PHP
+      ansible.builtin.include_role: geerlingguy.php
+
+  tasks:
+    - name: Ping server
+      ansible.builtin.ping:
+
+    - name: Add public ssh key to server
+      ansible.builtin.posix:
+        user: awx
+        state: present
+        key: https://github.com/demonpig.keys
