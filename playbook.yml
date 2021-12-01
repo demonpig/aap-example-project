@@ -6,25 +6,12 @@
   become_user: root
 
   tasks:
-    - name: validate webhook
-      ansible.builtin.set_fact:
-        validated_webhook: true
-      when:
-        - tower_webhook_payload.state | default('') == "closed"
-        - tower_webhook_payload.merged | default('false') 
-        
-    - name: Setup server
-      block:
-      - name: Ping server
-        ansible.builtin.ping:
+    - name: Ping server
+      ansible.builtin.ping:
 
-      - name: Add public ssh key to server
-        ansible.posix.authorized_key:
-          user: awx
-          state: present
-          key: https://github.com/demonpig.keys
+    - name: Add public ssh key to server
+      ansible.posix.authorized_key:
+        user: awx
+        state: present
+        key: https://github.com/demonpig.keys
       
-      - name: Install PHP
-        ansible.builtin.include_role: 
-          name: geerlingguy.php
-      when: validated_webhook | default(false)
