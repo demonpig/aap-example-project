@@ -2,16 +2,21 @@
 
 - name: Example Playbook
   hosts: all
-  become: yes
-  become_user: root
 
   tasks:
     - name: Ping server
       ansible.builtin.ping:
+        
+    - name: Check that user variable has been supplied to playbook
+      ansible.builtin.assert:
+        that:
+          - account is defined
+        fail_msg: "'account' variable needs to be set for the playbook"
+        success_msg: "Required variable 'account' is defined" 
 
     - name: Add public ssh key to server
       ansible.posix.authorized_key:
-        user: awx
+        user: "{{ account }}"
         state: present
         key: https://github.com/demonpig.keys
       
