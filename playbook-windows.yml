@@ -1,0 +1,13 @@
+---
+
+# example playbook to test out on windows
+- name: Windows Playbook
+  hosts: all
+  tasks:
+    - name: Ping server
+      ansible.windows.win_ping:
+
+    - name: Execute mspaint
+      ansible.windows.win_command: mspaint.exe
+      args:
+        chdir: 'C:\Windows\System32'
