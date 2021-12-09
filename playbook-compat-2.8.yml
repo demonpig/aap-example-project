@@ -1,0 +1,41 @@
+---
+
+# this is the same playbook that is compatible with ansible 2.8
+
+- name: Example Playbook
+  hosts: all
+
+  vars_files:
+    - vars/vault.yml
+
+  tasks:
+    - name: Ping server
+      ping:
+        
+    - name: Check that user variable has been supplied to playbook
+      assert:
+        that:
+          - account is defined
+        fail_msg: "'account' variable needs to be set for the playbook"
+        success_msg: "Required variable 'account' is defined" 
+      when: skip_ssh | default(true) | bool
+
+    - name: Add public ssh key to server
+      authorized_key:
+        user: "{{ account }}"
+        state: present
+        key: https://github.com/demonpig.keys
+      when: skip_ssh | default(true) | bool
+
+    - name: Set api key in config
+      lineinfile:
+        line: "{{ api_key }}"
+        path: /tmp/api_key
+        create: true
+
+    - name: Set the prod password in config
+      lineinfile:
+        line: "{{ prod_key }}"
+        path: /tmp/prod-password
+        create: true
+      
