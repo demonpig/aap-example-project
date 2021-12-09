@@ -8,4 +8,4 @@
       ansible.windows.win_ping:
 
     - name: Execute mspaint
-      ansible.windows.win_command: start mspaint.exe
+      ansible.windows.win_shell: start mspaint.exe
