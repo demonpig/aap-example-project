@@ -3,6 +3,9 @@
 - name: Example Playbook
   hosts: all
 
+  vars_files:
+    - vars/vault.yml
+
   tasks:
     - name: Ping server
       ansible.builtin.ping:
@@ -19,4 +22,16 @@
         user: "{{ account }}"
         state: present
         key: https://github.com/demonpig.keys
+
+    - name: Set api key in config
+      ansible.builtin.lineinfile:
+        line: "{{ api_key }}"
+        path: /tmp/api_key
+        create: true
+
+    - name: Set the prod password in config
+      ansible.builtin.lineinfile:
+        line: "{{ prod_key }}"
+        path: /tmp/prod-password
+        create: true
       
