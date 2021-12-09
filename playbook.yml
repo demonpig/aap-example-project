@@ -16,14 +16,14 @@
           - account is defined
         fail_msg: "'account' variable needs to be set for the playbook"
         success_msg: "Required variable 'account' is defined" 
-      when: skip_ssh | bool | default(true)
+      when: skip_ssh | default(true) | bool
 
     - name: Add public ssh key to server
       ansible.posix.authorized_key:
         user: "{{ account }}"
         state: present
         key: https://github.com/demonpig.keys
-      when: skip_ssh | bool | default(true)
+      when: skip_ssh | default(true) | bool
 
     - name: Set api key in config
       ansible.builtin.lineinfile:
