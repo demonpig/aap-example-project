@@ -1,0 +1,10 @@
+---
+
+- name: Test PHP Collection
+  hosts: all
+
+  collections:
+    - geerlingguy.php_roles
+
+  roles:
+    - role: php

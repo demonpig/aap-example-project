@@ -3,3 +3,4 @@
 collections:
   - name: ansible.posix
   - name: ansible.windows
+  - name: geerlingguy.php_roles
