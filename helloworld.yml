@@ -5,3 +5,8 @@
   tasks:
     - name: Print Hello World
       ansible.builtin.debug: msg="Hello World"
+    - name: Get acl info
+      ansible.posix.acl:
+        path: /etc/os-release
+      register: acl_info
+    - debug: var=acl_info
