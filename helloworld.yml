@@ -1,12 +1,11 @@
 ---
 
 - name: Hello World Playbook
-  hosts: all
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  become: true
+  remote_user: login_user
   tasks:
     - name: Print Hello World
       ansible.builtin.debug: msg="Hello World"
-    - name: Get acl info
-      ansible.posix.acl:
-        path: /etc/os-release
-      register: acl_info
-    - debug: var=acl_info
