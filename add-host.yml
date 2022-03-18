@@ -1,0 +1,11 @@
+---
+
+- name: Add Host to Ansible Tower
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: add new host to Ansible Tower inventory
+      ansible.controller.host:
+        name: test-server
+        inventory: somethingnow-inventory
+        state: present
