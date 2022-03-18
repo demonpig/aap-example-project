@@ -6,6 +6,6 @@
   tasks:
     - name: add new host to Ansible Tower inventory
       ansible.controller.host:
-        name: test-server2
+        name: test-server3
         inventory: somethingnow-inventory
         state: present
