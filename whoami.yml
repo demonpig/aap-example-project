@@ -1,0 +1,7 @@
+---
+
+- name: Whoami Playbook
+  hosts: all
+  tasks:
+    - name: Execute command
+      ansible.builtin.command: whoami
