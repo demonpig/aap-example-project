@@ -1,0 +1,9 @@
+---
+
+- name: Sleep Playbook
+  hosts: all
+  tasks:
+    - name: Sleep Task
+      ansible.builtin.command: sleep 9999s
+      async: 9999
+      poll: 5
