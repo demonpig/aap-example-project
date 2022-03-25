@@ -3,14 +3,14 @@
 - name: Synchronize Playbook
   hosts: all
   tasks:
-    - ansible.builtin.file:
+    - file:
         path: /tmp/{{ item }}
         state: directory
       loop:
         - a
         - b
         
-    - ansible.builtin.file:
+    - file:
         path: /tmp/a/{{ item }}
         state: touch
       loop:
@@ -18,7 +18,7 @@
         - 2
         - 3
     
-    - ansible.posix.synchronize:
+    - synchronize:
         src: /tmp/a
         dest: /tmp/b
         delete: true
