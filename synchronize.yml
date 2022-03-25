@@ -23,4 +23,4 @@
         dest: /root/b
         delete: true
         checksum: true
-      deletegate_to: "{{ inventory_hostname }}"
+      delegate_to: "{{ inventory_hostname }}"
