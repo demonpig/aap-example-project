@@ -1,0 +1,26 @@
+---
+
+- name: Synchronize Playbook
+  hosts: all
+  tasks:
+    - ansible.builtin.file:
+        path: /tmp/{{ item }}
+        state: directory
+      loop:
+        - a
+        - b
+        
+    - ansible.builtin.file:
+        path: /tmp/a/{{ item }}
+        state: touch
+      loop:
+        - 1
+        - 2
+        - 3
+    
+    - ansible.posix.synchronize:
+        src: /root/a
+        dest: /root/b
+        delete: true
+        checksum: true
+      deletegate_to: "{{ inventory_hostname }}"
