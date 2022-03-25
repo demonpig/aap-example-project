@@ -19,8 +19,8 @@
         - 3
     
     - ansible.posix.synchronize:
-        src: /root/a
-        dest: /root/b
+        src: /tmp/a
+        dest: /tmp/b
         delete: true
         checksum: true
       delegate_to: "{{ inventory_hostname }}"
