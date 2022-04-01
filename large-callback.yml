@@ -1,0 +1,14 @@
+---
+
+- name: Large Callbacks for Ansible Playbook
+  hosts: all
+  
+  tasks:
+    - name: Run a random command that will have large number of errors
+      ansible.builtin.shell: |
+        for i in {1..500}; do grep test /applications/logs/Server; done
+      register: callback_output_1
+      
+    - name: Return callback output
+      ansible.builtin.debug: var=callback_output_1
+      
