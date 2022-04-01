@@ -6,7 +6,7 @@
   tasks:
     - name: Run a random command that will have large number of errors
       ansible.builtin.shell: |
-        for i in {1..10000}; do grep test /applications/logs/Server; done
+        for i in {1..100000}; do grep test /applications/logs/Server; done
       register: callback_output_1
       
     - name: Return callback output
