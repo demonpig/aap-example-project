@@ -1,0 +1,8 @@
+---
+
+- name: Ping Playbook
+  hosts: all
+  become: false
+  gather_facts: false
+  tasks:
+    - ansible.builtin.ping:
