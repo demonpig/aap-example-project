@@ -6,17 +6,22 @@
   gather_facts: false
   
   tasks:
+    - name: Make tempfile
+      ansible.builtin.tempfile:
+        state: file
+      register: temp
+      
     - name: Download large json file onto server
       ansible.builtin.uri:
         url: https://raw.githubusercontent.com/json-iterator/test-data/master/large-file.json
-        dest: /tmp/large-file.json
+        dest: "{{ temp.path }}"
       register: download
       
     - name: Debug download
       ansible.builtin.debug: var=download
     
     - name: Output file
-      ansible.builtin.command: cat /tmp/large-file.json
+      ansible.builtin.command: cat "{{ temp.path }}"
       register: output
     
     - name: Debug output
@@ -24,5 +29,5 @@
       
     - name: Delete file
       ansible.builtin.file:
-        path: /tmp/large-file.json
+        path: "{{ temp.path }}"
         state: absent
