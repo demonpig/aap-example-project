@@ -11,9 +11,16 @@
         url: https://raw.githubusercontent.com/json-iterator/test-data/master/large-file.json
         dest: /tmp/large-file.json
       register: download
-    
-    - name: Debug
+      
+    - name: Debug download
       ansible.builtin.debug: var=download
+    
+    - name: Output file
+      ansible.builtin.command: cat /tmp/large-file.json
+      register: output
+    
+    - name: Debug output
+      ansible.builtin.debug: var=output
       
     - name: Delete file
       ansible.builtin.file:
