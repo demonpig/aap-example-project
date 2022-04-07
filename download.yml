@@ -1,0 +1,21 @@
+---
+
+- name: Download Large JSON File
+  hosts: all
+  become: false
+  gather_facts: false
+  
+  tasks:
+    - name: Download large json file onto server
+      ansible.builtin.uri:
+        url: https://raw.githubusercontent.com/json-iterator/test-data/master/large-file.json
+        dest: /tmp/large-file.json
+      register: download
+    
+    - name: Debug
+      ansible.builtin.debug: var=download
+      
+    - name: Delete file
+      ansible.builtin.file:
+        path: /tmp/large-file.json
+        state: absent
