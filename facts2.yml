@@ -9,6 +9,7 @@
     - name: Update set_cache
       ansible.builtin.set_fact:
         set_cache: false
+        cacheable: true
         
     - name: Print ansible_facts
       ansible.builtin.debug:
