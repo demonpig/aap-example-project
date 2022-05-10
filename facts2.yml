@@ -8,7 +8,7 @@
   tasks:
     - name: Update set_cache
       ansible.builtin.set_fact:
-        set_cache: true
+        set_cache: false
         
     - name: Print ansible_facts
       ansible.builtin.debug:
