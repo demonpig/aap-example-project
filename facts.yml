@@ -6,6 +6,11 @@
   become: false
   
   tasks:
+    - name: Create simple fact
+      ansible.builtin.set_fact:
+        set_cache: true
+        cacheable: true
+        
     - name: Create facts.d directory
       ansible.builtin.file:
         path: /etc/ansible/facts.d
