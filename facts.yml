@@ -2,10 +2,35 @@
 
 - name: Gather Facts
   hosts: all
-  gather_facts: true
+  gather_facts: false
   become: false
   
   tasks:
+    - name: Create facts.d directory
+      ansible.builtin.file:
+        path: /etc/ansible/facts.d
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      become: true
+      become_user: root
+      
+    - name: Create local fact file
+      ansible.builtin.blockinfile:
+        block: |
+          [general]
+          asdf=1
+          bar=2
+        path: /etc/ansible/facts.d/preferences.fact
+        owner: root
+        group: root
+        mode: 0644
+        create: true
+    
+    - name: Gather facts
+      ansible.builtin.setup:
+      
     - name: Print ansible_facts
       ansible.builtin.debug:
         var: ansible_facts
