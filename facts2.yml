@@ -6,6 +6,10 @@
   become: false
   
   tasks:
+    - name: Update set_cache
+      ansible.builtin.set_fact:
+        set_cache: true
+        
     - name: Print ansible_facts
       ansible.builtin.debug:
         var: ansible_facts
