@@ -39,3 +39,4 @@
       ansible.builtin.debug: msg="Hello World"
     - ansible.builtin.command: sleep 5s
     - ansible.builtin.command: whoami
+...
