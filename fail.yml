@@ -1,0 +1,13 @@
+---
+
+- name: Fail Playbook
+  hosts: all
+  become: false
+  gather_facts: false
+  
+  tasks:
+    - ansible.builtin.debug: 
+        msg: I am your father!
+        
+    - ansible.builtin.fail:
+        msg: NOOOOOOOOOOOOOOOOOO!!!!!!!
