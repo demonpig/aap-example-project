@@ -3,7 +3,7 @@
 - name: Wrong Snytax
   hosts: all
   become: false
-  gather_facts: false
+  gather_facts: true
   
   tasks:
     - name: This task contains the write syntax
