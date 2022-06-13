@@ -1,0 +1,8 @@
+---
+
+- name: Hello World with no defined gather_facts
+  hosts: all
+  tasks:
+    - name: Print Message
+      ansible.builtin.debug:
+        msg: Hello World
