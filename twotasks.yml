@@ -1,0 +1,7 @@
+---
+
+- name: Two Tasks
+  hosts: all
+  tasks:
+    - debug: msg=Hello
+    - debug: msg=World
