@@ -5,5 +5,4 @@
   gather_facts: false
   tasks:
     - name: Print Message
-      ansible.builtin.debug:
-        msg: Hello World
+      ansible.builtin.command: echo Hello
