@@ -3,7 +3,7 @@
 - name: Fail Playbook
   hosts: all
   become: false
-  gather_facts: false
+  gather_facts: true
   
   tasks:
     - ansible.builtin.debug: 
