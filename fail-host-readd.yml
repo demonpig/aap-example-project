@@ -2,6 +2,8 @@
 
 - name: Fail host and re-add them in an always block
   hosts: all
+  any_errors_fatal: true
+  max_fail_percentage: 0
   tasks:
     - block:
         - fail:
