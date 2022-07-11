@@ -3,22 +3,13 @@
 - name: Fail host and re-add them in an always block
   hosts: all
   tasks:
-    # all hosts
-    - debug: msg="hello {{ inventory_hostname }}"
-    
     - block:
-      # this host should now be out of the play
-      - name: Fail host with particular name
-        ansible.builtin.fail:
-          msg: "failed because host name matched"
-        when: inventory_hostname == "controller1.local"
-      
-      # only remaining hosts will be executing this
-      - debug: msg="host {{ inventory_hostname }} has not failed us yet"
-      
+        - fail:
+          when: inventory_hostname == "controller1.local"
       always:
-        # this should bring back the failed host
         - ping:
-    
-    # all hosts now in play again
-    - debug: msg="hello {{ inventory_hostname }}"
+      
+    - name: tasks
+      when: inventory_hostname in groups['test_group']
+      block:
+        - debug: msg="hello {{ inventory_hostname }}"
