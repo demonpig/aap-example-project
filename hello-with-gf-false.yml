@@ -1,8 +1,0 @@
----
-
-- name: Hello World with no defined gather_facts
-  hosts: all
-  gather_facts: false
-  tasks:
-    - name: Print Message
-      ansible.builtin.command: echo Hello

@@ -1,0 +1,9 @@
+---
+
+- name: Hello World Playbook
+  hosts: all
+  
+  tasks:
+    - name: Display Message
+      ansible.builtin.debug: 
+        msg: Hello World

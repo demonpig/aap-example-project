@@ -1,0 +1,4 @@
+---
+
+roles:
+  - name: redhatofficial.rhel8_stig
