@@ -1,0 +1,13 @@
+---
+
+- name: Display Azure Credential Values
+  hosts: all
+  
+  tasks:
+    - name: Display client id
+      ansible.builtin.debug:
+        var: client_id
+        
+    - name: Display AD user
+      ansible.builtin.debug:
+        var: ad_user
