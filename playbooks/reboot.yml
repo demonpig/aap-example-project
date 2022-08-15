@@ -16,5 +16,4 @@
       notify: reboot host
       
     - name: Sleep Task
-      ansible.builtin.pause:
-        minutes: 1
+      ansible.builtin.command: sleep 65s
