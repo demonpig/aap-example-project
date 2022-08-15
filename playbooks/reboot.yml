@@ -9,7 +9,6 @@
     - name: reboot host
       ansible.builtin.reboot:
         reboot_timeout: 15
-      timeout: 10
   
   tasks:
     - name: Task to trigger a handler
