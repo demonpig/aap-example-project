@@ -17,3 +17,4 @@
       
     - name: Sleep Task
       ansible.builtin.command: sleep 65s
+      when: not skip_sleep|bool
