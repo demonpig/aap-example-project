@@ -14,3 +14,7 @@
     - name: Task to trigger a handler
       ansible.builtin.command: echo "Need to reboot host now!!!! Get to the choppa!"
       notify: reboot host
+      
+    - name: Sleep Task
+      ansible.builtin.pause:
+        minutes: 1
