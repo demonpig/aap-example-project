@@ -26,7 +26,7 @@
       community.vmware.vmware_guest_find:
         validate_certs: false
         hostname: "{{ vmware_vcenter_server }}"
-        username: user
+        user: user
         password: pass
         name: "{{ vm_name | default('localhost') }}"
       register: vm_info
