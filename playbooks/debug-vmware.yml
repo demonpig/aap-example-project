@@ -1,0 +1,33 @@
+---
+
+- name: Debug VMware
+  hosts: all
+  
+  tasks:
+    - name: check vmware server availability
+      delegate_to: localhost
+      become: false
+      ansible.builtin.wait_for:
+        state: started
+        host: "{{ vmware_vcenter_server | default('127.0.0.1') }}"
+        port: "{{ vmware_vcenter_server_port | default('8989') }}"
+        delay: 1
+        sleep: 0
+        timeout: 2
+      ignore_errors: true
+      register: acl_check
+      when: vmware_vcenter_server is defined
+      
+    - name: locating vm within vmware vcenter
+      delegate_to: localhost
+      become: false
+      ignore_errors: true
+      community.vmware.vmware_guest_find:
+        validate_certs: false
+        hostname: "{{ vmware_vcenter_server }}"
+        username: user
+        password: pass
+        name: "{{ vm_name | default('localhost') }}"
+      register: vm_info
+      when:
+        - acl_check is succeeded
