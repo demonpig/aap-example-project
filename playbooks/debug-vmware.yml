@@ -2,6 +2,7 @@
 
 - name: Debug VMware
   hosts: all
+  become: true
   
   tasks:
     - name: check vmware server availability
