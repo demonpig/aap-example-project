@@ -8,7 +8,7 @@
     - name: check vmware server availability
       delegate_to: localhost
       become: false
-      ansible.builtin.wait_for:
+      wait_for:
         state: started
         host: "{{ vmware_vcenter_server | default('127.0.0.1') }}"
         port: "{{ vmware_vcenter_server_port | default('8989') }}"
@@ -23,7 +23,7 @@
       delegate_to: localhost
       become: false
       ignore_errors: true
-      community.vmware.vmware_guest_find:
+      vmware_guest_find:
         validate_certs: false
         hostname: "{{ vmware_vcenter_server }}"
         user: user
