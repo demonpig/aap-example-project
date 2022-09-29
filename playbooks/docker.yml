@@ -1,0 +1,12 @@
+---
+
+- name: Docker Hello World
+  hosts: all
+  gather_facts: false
+  
+  tasks:
+    - name: Run hello-world container
+      community.docker.docker_container:
+        name: hello_world
+        image: hello-world
+        auto_remove: true
