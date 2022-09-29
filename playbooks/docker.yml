@@ -10,6 +10,7 @@
       loop:
         - /var/run/docker.sock
         - /run/docker.sock
+      ignore_errors: true
         
     - name: Run hello-world container
       community.docker.docker_container:
