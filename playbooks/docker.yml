@@ -18,3 +18,4 @@
         image: hello-world
         auto_remove: true
         state: started
+        docker_host: unix://run/docker.sock
