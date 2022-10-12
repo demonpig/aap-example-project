@@ -2,4 +2,4 @@
 
 collections:
   - name: ansible.tower
-    version: *
+    version: '*'
