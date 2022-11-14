@@ -1,0 +1,10 @@
+---
+
+- name: Debug path outputs
+  hosts: all
+
+  tasks:
+    - debug: var={{ item }}
+      loop:
+        - ansible_winrm_cert_pem
+        - ansible_winrm_cert_key_pem
