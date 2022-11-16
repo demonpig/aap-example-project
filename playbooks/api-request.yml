@@ -11,3 +11,4 @@
         method: "{{ request_method | default('GET') }}"
         body: "{{ request_body | default(omit) }}"
         body_format: "{{ request_body_format | default(omit) }}"
+        validate_certs: "{{ request_validate_certs | default(True) }}"
