@@ -1,0 +1,13 @@
+---
+
+- name: API Request
+  hosts: all
+  gather_facts: false
+  
+  tasks:
+    - name: Make request to endpoint
+      ansible.builtin.uri:
+        url: "{{ request_url | mandatory }}"
+        method: "{{ request_method | default('GET') }}"
+        body: "{{ request_body | default(omit) }}"
+        body_format: "{{ request_body_format | default(omit) }}"
