@@ -1,0 +1,11 @@
+---
+
+- name: Fetch Debugging
+  hosts: "{{ servers | default(all) }}"
+  
+  tasks:
+    - name: Execute ansible.builtin.fetch module
+      ansible.builtin.fetch:
+        src: "{{ fetch_src | default('/etc/os-release') }}"
+        dest: "{{ fetch_dest | default('/tmp/os-release-' + inventory_hostname) }}"
+        flat: true
