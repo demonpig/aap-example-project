@@ -1,7 +1,7 @@
 ---
 
 - name: Fetch Debugging
-  hosts: "{{ servers | default(all) }}"
+  hosts: "{{ servers | default('all') }}"
   
   tasks:
     - name: Execute ansible.builtin.fetch module
