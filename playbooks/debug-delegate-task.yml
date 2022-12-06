@@ -14,7 +14,14 @@
         var: hostvars[inventory_hostname]
       delegate_to: localhost
 
+    - name: Save current path for ANSIBLE_NET_SSH_KEYFILE
+      ansible.builtin.set_fact:
+        tmp_sshkeyfile: "{{ lookup('env', 'ANSIBLE_NET_SSH_KEYFILE') }}"
+
     - name: Test accessing keyfile from network credential
-      ansible.builtin.command: cat "{{ lookup('env', 'ANSIBLE_NET_SSH_KEYFILE') }}"
+      ansible.builtin.command: cat {{ lookup('env', 'ANSIBLE_NET_SSH_KEYFILE') }}
       delegate_to: localhost
+      environment:
+        ANSIBLE_NET_SSH_KEYFILE: "/runner/env/{{ tmp_sshkeyfile | basename }}"
+
       
