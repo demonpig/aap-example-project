@@ -1,0 +1,21 @@
+---
+
+- name: Testing delegate_to task
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Printing out environment variables - no delegate_to
+      ansible.builtin.debug:
+        var: hostvars[inventory_hostname]
+
+    - name: Printing out environment variables - delegate_to
+      ansible.builtin.debug:
+        var: hostvars[inventory_hostname]
+      delegate_to: localhost
+
+    - name: Test accessing keyfile from network credential
+      ansible.builtin.debug:
+        var: "{{ lookup('env', 'ANSIBLE_NET_SSH_KEYFILE') }}"
+      delegate_to: localhost
+      
