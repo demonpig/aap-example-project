@@ -2,20 +2,15 @@
 
 - name: Testing delegate_to task
   hosts: all
-  gather_facts: false
+  gather_facts: true
 
   tasks:
     - name: Save current path for ANSIBLE_NET_SSH_KEYFILE
       ansible.builtin.set_fact:
         tmp_sshkeyfile: "{{ lookup('env', 'ANSIBLE_NET_SSH_KEYFILE') }}"
 
-    - name: gather facts
-      ansible.builtin.setup:
-      environment:
-        ANSIBLE_NET_SSH_KEYFILE: "/runner/env/{{ tmp_sshkeyfile | basename }}"
-
     - name: Test accessing keyfile from network credential
-      ansible.builtin.command: cat {{ lookup('env', 'ANSIBLE_NET_SSH_KEYFILE') }}
+      ansible.builtin.command: cat /runner/env/{{ lookup('env', 'ANSIBLE_NET_SSH_KEYFILE') | basename }}
       delegate_to: localhost
 
       
