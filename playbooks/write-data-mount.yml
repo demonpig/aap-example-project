@@ -1,0 +1,12 @@
+---
+
+- name: Write data to mountpoint
+  hosts: all
+  tasks:
+    - name: Write line in file
+      ansible.builtin.lineinfile:
+        path: "{{ base_path | default('/data') }}/random.txt"
+        line: "Whose your daddy and what does he do?"
+        mode: 0644
+        state: present
+        create: true
