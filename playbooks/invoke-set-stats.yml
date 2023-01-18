@@ -1,0 +1,9 @@
+---
+
+- name: Invoke the set_stats module
+  hosts: all
+  tasks:
+    - name: Invoke the module
+      ansible.builtin.set_stats:
+        data:
+          yo_dawg: "Holla back at cha boi!"
