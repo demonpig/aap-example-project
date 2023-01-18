@@ -7,3 +7,4 @@
       ansible.builtin.set_stats:
         data:
           yo_dawg: "Holla back at cha boi!"
+        aggregate: true
