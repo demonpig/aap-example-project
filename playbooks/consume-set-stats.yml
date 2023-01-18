@@ -1,0 +1,7 @@
+---
+
+- name: Consume set_stats data from invoke-set-stats.yml playbook
+  hosts: all
+  tasks:
+    - name: Print output
+      ansible.builtin.debug: "{{ yo_dawg }}"
