@@ -3,6 +3,10 @@
 - name: Consume set_stats data from invoke-set-stats.yml playbook
   hosts: all
   tasks:
+    - name: Unset variable
+      ansible.builtin.set_fact:
+        yo_dawg: null
+
     - name: Random Task
       ansible.builtin.command: echo Hello
       
