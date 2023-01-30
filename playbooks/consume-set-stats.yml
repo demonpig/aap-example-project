@@ -12,4 +12,4 @@
       ansible.builtin.command: echo Hello
       
     - name: Print output
-      ansible.builtin.debug: "{{ yo_dawg }}"
+      ansible.builtin.debug: var=yo_dawg
