@@ -4,7 +4,7 @@
   hosts: all
   tasks:
     - name: Unset variable
-      ansible.builtin.set_fact:
+      ansible.builtin.set_stats:
         yo_dawg: null
 
     - name: Random Task
