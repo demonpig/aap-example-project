@@ -3,7 +3,5 @@
 - name: Use an installed collection
   hosts: all
   tasks:
-    - name: Call a posix module
-      ansible.posix.selinux:
-        policy: targeted
-        state: enforcing
+    - name: Call a azure collection module
+      azure.azcollection.azure_rm_account_info:
