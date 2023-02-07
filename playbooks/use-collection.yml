@@ -1,0 +1,9 @@
+---
+
+- name: Use an installed collection
+  hosts: all
+  tasks:
+    - name: Call a posix module
+      ansible.posix.selinux:
+        policy: targeted
+        state: enforcing
