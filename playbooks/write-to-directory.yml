@@ -11,5 +11,6 @@
       ansible.builtin.lineinfile:
         path: "{{ _wto_directory }}/famous-line.txt"
         line: "It's just a flesh wound."
-        state: 0644
+        state: present
+        mode: 0644
         create: true
