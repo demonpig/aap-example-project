@@ -1,0 +1,7 @@
+---
+
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1
+  
+iam_role_arn: "{{ lookup('env', 'AWS_RAM_ROLE_ARN') | default('', true) }}"
