@@ -14,8 +14,8 @@
 *.*~
 
 # Tower runtime roles
-roles/**
-!roles/requirements.yml
+#roles/**
+#!roles/requirements.yml
 
 # Avoid plain-text passwords
 *pwd*
