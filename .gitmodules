@@ -1,3 +1,6 @@
 [submodule "roles/rclone"]
 	path = roles/rclone
 	url = https://github.com/demonpig/ansible-role-rclone
+[submodule "roles/role-dep"]
+	path = roles/role-dep
+	url = https://github.com/demonpig/ansible-role-dependency
