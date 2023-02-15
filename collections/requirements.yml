@@ -1,6 +1,6 @@
 ---
 
-collections:
-  - name: ansible.posix
-  - name: amazon.aws
-  - name: community.general
+#collections:
+#  - name: ansible.posix
+#  - name: amazon.aws
+#  - name: community.general
