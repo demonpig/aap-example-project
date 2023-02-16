@@ -1,6 +1,7 @@
 ---
 
 collections:
+  - name: ansible.windows
   - name: ansible.posix
     version: 1.5.1
   - name: amazon.aws
