@@ -1,6 +1,8 @@
 ---
 
-#collections:
-#  - name: ansible.posix
-#  - name: amazon.aws
-#  - name: community.general
+collections:
+  - name: ansible.posix
+  - name: amazon.aws
+    version: '>= 5.2.0'
+  - name: community.general
+    version: '>= 6.2.0'
