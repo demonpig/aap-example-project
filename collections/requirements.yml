@@ -3,8 +3,5 @@
 collections:
   - name: ansible.windows
   - name: ansible.posix
-    version: 1.5.1
   - name: amazon.aws
-    version: '>=5.2.0'
   - name: community.general
-    version: '>=6.2.0'
