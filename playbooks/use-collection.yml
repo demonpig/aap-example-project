@@ -1,7 +1,0 @@
----
-
-- name: Use an installed collection
-  hosts: all
-  tasks:
-    - name: Call a azure collection module
-      azure.azcollection.azure_rm_account_info:

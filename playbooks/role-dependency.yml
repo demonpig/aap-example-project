@@ -1,6 +1,0 @@
----
-
-- name: Execute using a role dependency
-  hosts: all
-  roles:
-    - role: role-dep
