@@ -1,6 +1,0 @@
----
-
-- name: Install php
-  hosts: all
-  roles:
-    - name: geerlingguy.php
