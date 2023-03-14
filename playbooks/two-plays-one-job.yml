@@ -1,0 +1,17 @@
+---
+
+- name: Playbook with two plays
+  hosts: all
+  become: false
+  gather_facts: false
+  
+  tasks:
+    - ansible.builtin.command: echo hello
+    
+- name: Playbook with two plays pt2
+  hosts: all
+  become: false
+  gather_facts: false
+  
+  tasks:
+    - ansible.builtin.command: echo hello world2
