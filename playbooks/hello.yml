@@ -6,4 +6,4 @@
   tasks:
     - name: Display Message
       ansible.builtin.debug: 
-        msg: Hello World
+        msg: "{{ hello | default('hello world') }}"
