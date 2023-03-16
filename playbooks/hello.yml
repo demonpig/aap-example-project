@@ -7,3 +7,10 @@
     - name: Display Message
       ansible.builtin.debug: 
         msg: "{{ hello | default('hello world') }}"
+        
+    - name: Display Another Message
+      ansible.builtin.command: echo Hello
+      register: hello_var
+      
+    - name: Display variable
+      ansible.builtin.debug: var=hello_var
