@@ -9,9 +9,9 @@
       ansible.builtin.command: find /etc/pki
     
     - name: Cat out bundle-ca
-      ansible.builtin.command: cat /etc/pki/ca-trust/source/anchors/bundle-ca.crt
+      ansible.builtin.shell: find /etc/pki/ca-trust/source/anchors -type f -exec cat {} \;
       ignore_errors: true
     
     - name: Search for red hat in trust list
-      ansible.builtin.shell: >
+      ansible.builtin.shell: |
         trust list | grep -i 'red hat'
