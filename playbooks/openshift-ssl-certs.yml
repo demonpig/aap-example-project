@@ -1,0 +1,13 @@
+---
+
+- name: Print OpenSSL Certs in a Openshift environment for AAP
+  hosts: localhost
+  connection: local
+  
+  tasks:
+    - name: Get extract directory
+      ansible.builtin.command: find /etc/pki
+    
+    - name: Search for red hat in trust list
+      ansible.builtin.shell: >
+        trust list | grep -i 'red hat'
