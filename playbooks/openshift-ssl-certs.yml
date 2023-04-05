@@ -8,6 +8,10 @@
     - name: Get extract directory
       ansible.builtin.command: find /etc/pki
     
+    - name: Cat out bundle-ca
+      ansible.builtin.command: cat /etc/pki/ca-trust/source/anchors/bundle-ca.crt
+      ignore_errors: true
+    
     - name: Search for red hat in trust list
       ansible.builtin.shell: >
         trust list | grep -i 'red hat'
