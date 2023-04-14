@@ -3,6 +3,9 @@
 - name: Hello World Playbook
   hosts: all
   
+  vars:
+    hello_var: 123
+  
   tasks:
     - name: Display Message
       ansible.builtin.debug: 
