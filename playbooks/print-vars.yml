@@ -1,0 +1,8 @@
+---
+
+- name: Print a dictionary
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Print a dictionary
+      ansible.builtin.debug: var=dictionary
