@@ -2,18 +2,8 @@
 
 - name: Hello World Playbook
   hosts: all
-  
-  vars:
-    hello_var: 123
-  
   tasks:
-    - name: Display Message
-      ansible.builtin.debug: 
-        msg: "{{ hello | default('hello world') }}"
-        
-    - name: Display Another Message
-      ansible.builtin.command: echo Hello
-      register: hello_var
-      
-    - name: Display variable
-      ansible.builtin.debug: var=hello_var
+    - name: Print message
+      ansible.builtin.command: echo "Hello World"
+      environment:
+        ANSIBLE_STDOUT_CALLBACK: community.general.yaml
