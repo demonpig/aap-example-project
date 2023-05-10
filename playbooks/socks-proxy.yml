@@ -5,7 +5,7 @@
   gather_facts: false
   tasks:
     - name: Create SSH keys
-      ansible.buitlin.copy:
+      ansible.builtin.copy:
         content: "{{ item.content }}"
         dest: "{{ item.dest }}"
         owner: root
