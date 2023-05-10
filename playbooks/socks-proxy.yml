@@ -6,7 +6,7 @@
   tasks:
     - name: Create SSH keys
       ansible.builtin.copy:
-        content: "{{ item.content }}"
+        content: "{{ item.content }}\\n"
         dest: "{{ item.dest }}"
         mode: 0600
       loop:
