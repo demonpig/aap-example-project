@@ -18,6 +18,9 @@
     - name: Create proxy tunnels
       ansible.builtin.shell: ssh -i {{ jumphost2_ssh_private_key }} -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=no -o ProxyCommand="ssh -i {{ jumphost1_ssh_private_key }} -W {{ jumphost2_ip }}:{{ jumphost2_ssh_port }} -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=no -p {{ jumphost1_ssh_port }} {{ jumphost1_ssh_user }}@{{ jumphost1_ip }}" -CfNq -D /tmp/socks5-{{ jh_socks_port }} -p {{ jumphost2_ssh_port }} {{ jumphost2_ssh_user }}@{{ jumphost2_ip }} -vvvvvv
 
+    - name: Sleep
+      ansible.builtin.command: sleep 300s
+
 - name: Windows Playbook
   hosts: windows
   gather_facts: false
