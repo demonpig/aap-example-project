@@ -1,0 +1,7 @@
+---
+
+- name: Playbook that fails
+  hosts: all
+  gather_facts: false
+  tasks:
+    - ansible.builtin.fail:
