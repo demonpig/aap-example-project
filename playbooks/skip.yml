@@ -1,0 +1,17 @@
+---
+
+- name: Playbook that skips
+  hosts: all
+  gather_facts: false
+  
+  vars:
+    skip_value: 0
+  
+  tasks:
+    - name: Skip this
+      ansible.builtin.command: echo Hello
+      when: skip_value > 0
+      
+    - name: Skip that
+      ansible.builtin.command: echo Hello 2
+      when: skip_value > 0
