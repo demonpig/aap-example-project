@@ -1,8 +1,14 @@
 ---
 
-- name: Print a dictionary
+- name: Print host variables
   hosts: all
-  gather_facts: false
+  serial: 1
+  run_once: true
   tasks:
-    - name: Print a dictionary
-      ansible.builtin.debug: var=dictionary
+    - name: Print host vars
+      ansible.builtin.debug: var=hostvars[inventory_hostname]
+      ignore_errors: true
+      
+    - name: Print vars
+      ansible.builtin.debug: var=vars
+      ignore_errors: true
