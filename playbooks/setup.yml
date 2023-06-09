@@ -1,0 +1,8 @@
+  - name: Gather Facts Playbook Test
+    hosts: all
+    gather_facts: false
+    serial: 1
+    tasks:
+      - name: Test fact gathering with 60 second timeout
+        ansible.builtin.setup:
+        timeout: "{{ timeout_value | default(60) }}"
