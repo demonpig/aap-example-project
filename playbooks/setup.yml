@@ -7,3 +7,4 @@
         ansible.builtin.setup:
         timeout: "{{ timeout_value | default(60) }}"
         ignore_errors: true
+        ignore_unreachable: true
