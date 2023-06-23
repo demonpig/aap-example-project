@@ -8,7 +8,7 @@
   handlers:
     - name: reboot host
       ansible.builtin.reboot:
-        reboot_timeout: 15
+        reboot_timeout: "{{ pb_ansible_timeout | default(15) }}"
   
   tasks:
     - name: Task to trigger a handler
