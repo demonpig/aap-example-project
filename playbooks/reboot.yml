@@ -5,15 +5,7 @@
   become: true
   become_user: root
   
-  handlers:
+  tasks:
     - name: reboot host
       ansible.builtin.reboot:
         reboot_timeout: "{{ pb_ansible_timeout | default(15) }}"
-  
-  tasks:
-    - name: Task to trigger a handler
-      ansible.builtin.command: echo "Need to reboot host now!!!! Get to the choppa!"
-      notify: reboot host
-      
-    - name: Sleep Task
-      ansible.builtin.command: sleep 65s
