@@ -1,0 +1,5 @@
+---
+
+- name: Skip this
+  ansible.builtin.command: echo Hello
+  when: skip_value > 0
