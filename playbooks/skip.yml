@@ -6,12 +6,10 @@
   
   vars:
     skip_value: 0
+    _loop_count: "{{ loop_count | default(10) }}"
   
   tasks:
     - name: Skip this
       ansible.builtin.command: echo Hello
       when: skip_value > 0
-      
-    - name: Skip that
-      ansible.builtin.command: echo Hello 2
-      when: skip_value > 0
+      with_sequence: start=0 end={{ _loop_count }}
