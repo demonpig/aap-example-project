@@ -10,5 +10,80 @@
   
   tasks:
     - name: Skip this
-      ansible.builtin.include_tasks: skip-task.yml
-      with_sequence: start=0 end={{ _loop_count }}
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0    
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0    
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0    
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0    
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0
+    - name: Skip this
+      ansible.buitlin.command: echo hello
+      when: skip_value > 0          
+    #- name: Skip this
+    #  ansible.builtin.include_tasks: skip-task.yml
+    #  with_sequence: start=0 end={{ _loop_count }}
