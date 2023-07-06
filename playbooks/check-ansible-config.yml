@@ -3,6 +3,11 @@
 - name: Check Ansible Configuration
   hosts: all
   tasks:
+    - name: Run ansible-config
+      ansible.builtin.command: ansible-config list
+      delegate_to: localhost
+      run_once: true
+      
     - name: Run ansible-doc command
       ansible.builtin.command: ansible-doc -t "{{ plugin_type }}" "{{ plugin_name }}"
       delegate_to: localhost
