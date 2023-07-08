@@ -12,7 +12,7 @@
       ansible.builtin.command: hostnamectl
 
     - name: Command run from specific host
-      ansible.builtin.command: ping {{ ansible_host }}
+      ansible.builtin.command: ping -c 1 {{ ansible_host }}
       delegate_to: "{{ _delegate_to_host }}"
       when: (_delegate_to_host not in inventory_hostname) or 
             (ansible_host != "10.0.108.13")
