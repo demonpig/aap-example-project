@@ -1,0 +1,13 @@
+---
+
+- name: Delegate playbook
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Command run on each host
+      ansible.builtin.command: hostnamectl
+
+    - name: Command run from specific host
+      ansible.builtin.command: ping {{ ansible_host }}
+      delegate_to: "{{ delegate_to_host | default('localhost') }}"
