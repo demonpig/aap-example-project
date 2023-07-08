@@ -6,3 +6,10 @@
   tasks:
     - debug: var=ansible_play_hosts
       run_once: true
+
+    - ansible.builtin.add_host:
+        name: managed3.local
+        ansible_host: 10.0.108.13
+        groups:
+          - managed-group
+      when: 'managed3.local' not in ansible_play_hosts
