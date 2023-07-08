@@ -12,4 +12,4 @@
         ansible_host: 10.0.108.13
         groups:
           - managed-group
-      when: 'managed3.local' not in ansible_play_hosts
+      when: '"managed3.local" not in ansible_play_hosts'
