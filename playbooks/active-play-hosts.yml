@@ -1,0 +1,8 @@
+---
+
+- name: Display active play hosts
+  hosts: all
+  gather_facts: false
+  tasks:
+    - debug: var=ansible_play_hosts
+      run_once: true
