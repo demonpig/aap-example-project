@@ -11,3 +11,4 @@
     - name: Command run from specific host
       ansible.builtin.command: ping {{ ansible_host }}
       delegate_to: "{{ delegate_to_host | default('localhost') }}"
+      when: delegate_to_host not in inventory_hostname
