@@ -10,3 +10,5 @@
   tasks:
     - ansible.builtin.fail:
       when: condition
+
+    - ansible.builtin.command: sleep 30s
