@@ -3,5 +3,10 @@
 - name: Playbook that fails
   hosts: all
   gather_facts: false
+
+  vars:
+    condition: true
+  
   tasks:
     - ansible.builtin.fail:
+      when: condition
