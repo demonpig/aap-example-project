@@ -11,4 +11,4 @@
       ansible.builtin.set_fact:
         cacheable: true
         vmware_data: 
-          name: "{{ hostvars[item].inventory_hostname }}"
+          name: "{{ inventory_hostname }}"
