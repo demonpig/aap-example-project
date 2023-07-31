@@ -21,3 +21,5 @@
       ansible.builtin.set_stats:
         data:
           vmware_data: "{{ vmware_hosts }}"
+        aggregate: false
+        per_host: true
