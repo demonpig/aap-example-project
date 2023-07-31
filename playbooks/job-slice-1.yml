@@ -10,16 +10,9 @@
   tasks:
     - name: Create and populate variable name
       loop: "{{ groups['all'] }}"
-      ansible.builtin.set_fact:
-        vmware_hosts: "{{ vmware_hosts | default({}) | combine({ 
-          (hostvars[item].inventory_hostname): {
-            'name': hostvars[item].inventory_hostname
-          }
-        }) }}"
-
-    - name: Set stats on new variable
       ansible.builtin.set_stats:
-        data:
-          vmware_data: "{{ vmware_hosts }}"
         aggregate: false
         per_host: true
+        data:
+          vmware_data: 
+            name: hostvars[item].inventory_hostname
