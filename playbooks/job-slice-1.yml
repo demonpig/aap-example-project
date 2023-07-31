@@ -10,8 +10,7 @@
       loop: "{{ groups['all'] }}"
       delegate_to: localhost
       run_once: true
-      ansible.builtin.set_stats:
-        per_host: true
-        data:
-          vmware_data: 
-            name: "{{ hostvars[item].inventory_hostname }}"
+      ansible.builtin.set_fact:
+        cacheable: true
+        vmware_data: 
+          name: "{{ hostvars[item].inventory_hostname }}"
