@@ -13,7 +13,7 @@
       ansible.builtin.set_fact:
         vmware_hosts: "{{ vmware_hosts | default({}) | combine({ 
           (inventory_hostname): {
-            'name': hostvars[item].composed_short_name | default(inventory_hostname)
+            'name': inventory_hostname
           }
         }) }}"
 
