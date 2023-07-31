@@ -7,7 +7,6 @@
 
   tasks:
     - name: Create and populate variable name
-      loop: "{{ groups['all'] }}"
       delegate_to: localhost
       ansible.builtin.set_fact:
         cacheable: true
