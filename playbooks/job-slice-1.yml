@@ -4,7 +4,6 @@
 - name: job-slice-1
   hosts: all
   gather_facts: false
-  become: true
 
   tasks:
     - name: Create and populate variable name
@@ -12,7 +11,6 @@
       delegate_to: localhost
       run_once: true
       ansible.builtin.set_stats:
-        aggregate: false
         per_host: true
         data:
           vmware_data: 
