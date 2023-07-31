@@ -7,5 +7,4 @@
   gather_facts: false
   tasks:
     - name: Display data
-      ansible.builtin.debug: var=vmware_data
-      run_once: true
+      ansible.builtin.debug: var=hostvars[inventory_hostname].vmware_data
