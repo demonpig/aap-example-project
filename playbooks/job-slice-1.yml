@@ -9,7 +9,6 @@
     - name: Create and populate variable name
       loop: "{{ groups['all'] }}"
       delegate_to: localhost
-      run_once: true
       ansible.builtin.set_fact:
         cacheable: true
         vmware_data: 
