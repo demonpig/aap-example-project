@@ -16,4 +16,4 @@
         per_host: true
         data:
           vmware_data: 
-            name: hostvars[item].inventory_hostname
+            name: "{{ hostvars[item].inventory_hostname }}"
