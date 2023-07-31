@@ -1,0 +1,11 @@
+---
+
+# this file will display the data from job-slice-1.yml
+
+- name: Display data
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Display data
+      ansible.builtin.debug: var=vmware_data
+      run_once: true
