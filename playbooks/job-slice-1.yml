@@ -15,7 +15,7 @@
           (inventory_hostname): {
             'name': hostvars[item].composed_short_name | default(inventory_hostname)
           }
-        }) }}
+        }) }}"
 
     - name: Set stats on new variable
       ansible.builtin.set_stats:
