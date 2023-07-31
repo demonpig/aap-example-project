@@ -12,8 +12,8 @@
       loop: "{{ groups['all'] }}"
       ansible.builtin.set_fact:
         vmware_hosts: "{{ vmware_hosts | default({}) | combine({ 
-          (inventory_hostname): {
-            'name': inventory_hostname
+          (hostvars[item].name): {
+            'name': hostvars[item].name
           }
         }) }}"
 
