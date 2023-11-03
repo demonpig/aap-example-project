@@ -9,3 +9,6 @@
       loop: "{{ range(0, 15, 1) }}"
       ansible.netcommon.cli_command:
         command: show ip int br
+
+    - pause:
+        seconds: 600
