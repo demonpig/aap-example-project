@@ -1,0 +1,6 @@
+---
+
+- name: Test
+  hosts: all
+  tasks:
+    - debug: var=hostvars['localhost']
