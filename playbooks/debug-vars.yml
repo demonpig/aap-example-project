@@ -1,6 +1,7 @@
 ---
 
 - name: Test
-  hosts: all
+  hosts: localhost
+  connection: local
   tasks:
     - debug: var=hostvars['localhost']
