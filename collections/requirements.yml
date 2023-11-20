@@ -4,3 +4,8 @@ collections:
   - name: ansible.windows
   - name: ansible.posix
   - name: azure.azcollection
+  - name: community.general
+  - name: community.vmware
+  - name: cisco.ios
+  - name: cisco.ise
+  - name: cloud.terraform
