@@ -5,7 +5,7 @@ collections:
   - name: ansible.posix
   - name: azure.azcollection
   - name: community.general
-  - name: community.vmware
+  - name: vmware.vmware_rest
   - name: cisco.ios
   - name: cisco.ise
   - name: cloud.terraform
