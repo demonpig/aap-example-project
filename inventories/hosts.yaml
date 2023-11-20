@@ -1,5 +1,5 @@
 ---
-ungrouped:
+all:
   hosts:
     mail.example.com:
 webservers:
