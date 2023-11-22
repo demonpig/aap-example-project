@@ -1,11 +1,12 @@
 ---
 
 collections:
-  - name: ansible.windows
-  - name: ansible.posix
-  - name: azure.azcollection
-  - name: community.general
-  - name: vmware.vmware_rest
-  - name: cisco.ios
-  - name: cisco.ise
-  - name: cloud.terraform
+  - name: ansible.controller
+  #- name: ansible.windows
+  #- name: ansible.posix
+  #- name: azure.azcollection
+  #- name: community.general
+  #- name: vmware.vmware_rest
+  #- name: cisco.ios
+  #- name: cisco.ise
+  #- name: cloud.terraform
