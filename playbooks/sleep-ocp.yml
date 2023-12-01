@@ -5,4 +5,4 @@
   tasks:
     - ping:
     - file: path=/tmp/test state=directory
-    - command: sleep 60s
+    - pause: seconds=60
