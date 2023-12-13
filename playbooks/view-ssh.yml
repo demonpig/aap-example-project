@@ -6,8 +6,7 @@
 
   tasks:
     - name: Install ps
-      ansible.builtin.package:
-        name: procps-ng
+      ansible.builtin.command: microdnf install procps-ng
         
     - name: Run commands
       delegate_to: localhost
