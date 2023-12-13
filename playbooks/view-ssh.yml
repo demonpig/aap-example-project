@@ -12,6 +12,7 @@
     - name: Run commands
       delegate_to: localhost
       ignore_errors: true
+      timeout: 30
       ansible.builtin.shell: "{{ item }}"
       loop:
         - ssh -v -o StrictHostKeyChecking=no cloud-user@{{ some_host | default('127.0.0.1') }} hostname
