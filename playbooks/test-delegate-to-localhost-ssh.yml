@@ -6,8 +6,8 @@
     tasks:
 
     - name: Test with localhost
-      shell: ssh -q -o StrictHostKeyChecking=no {{ some_user }}@{{ some_host }} hostname
+      shell: ssh -v -o StrictHostKeyChecking=no {{ some_user }}@{{ some_host }} hostname
       delegate_to: localhost
 
     - name: Test with  inventory host
-      shell: ssh -q -o StrictHostKeyChecking=no {{ some_user }}@{{ some_host }} hostname
+      shell: ssh -v -o StrictHostKeyChecking=no {{ some_user }}@{{ some_host }} hostname
