@@ -1,0 +1,10 @@
+---
+
+- name: Run a delegate-to-localhost task
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Some task
+      ansible.builtin.command: echo hello
+      delegate_to: localhost
