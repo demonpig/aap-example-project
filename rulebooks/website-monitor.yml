@@ -1,0 +1,26 @@
+---
+
+- name: Website Monitoring
+  hosts: all
+
+  source:
+    - ansible.eda.url_check:
+        delay: 15
+        urls:
+          - "{{ url }}"
+
+  rules:
+    - name: Website is up
+      condition:
+        - event.url_check.status == "up"
+      action:
+        run_job_template:
+          name: Ping Website
+          orgnization: Default
+
+    - name: Website is not up
+      condition:
+        - event.url_check.status == "down"
+      action:
+        run_playbook:
+          name: ../playbooks/ping.yml
