@@ -78,7 +78,7 @@ def _generate_inventory():
         'all': {
             'children': {
                 'vmware': {
-                    'hosts': hostvars
+                    'hosts': list(hostvars.keys())
                 }
             }
         }
