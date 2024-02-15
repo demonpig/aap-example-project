@@ -76,11 +76,10 @@ def _generate_inventory():
             'hostvars': hostvars
         },
         'all': {
-            'children': {
-                'vmware': {
-                    'hosts': list(hostvars.keys())
-                }
-            }
+            'children': ['vmware']
+        },
+        'vmware': {
+            'hosts': list(hostvars.keys())
         }
     }
 
