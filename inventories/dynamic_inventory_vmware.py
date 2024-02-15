@@ -71,17 +71,16 @@ def _generate_inventory():
         "vmss": {}
     }
 
-    ungrouped = list(hostvars.keys())
-
     data = {
         '_meta': {
             'hostvars': hostvars
         },
         'all': {
-            'children': ['vmware']
-        },
-        'vmware': {
-            'hosts': ungrouped
+            'children': {
+                'vmware': {
+                    'hosts': hostvars
+                }
+            }
         }
     }
 
