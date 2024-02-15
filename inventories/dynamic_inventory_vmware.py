@@ -78,9 +78,9 @@ def _generate_inventory():
             'hostvars': hostvars
         },
         'all': {
-            'children': ['ungrouped']
+            'children': ['vmware']
         },
-        'ungrouped': {
+        'vmware': {
             'hosts': ungrouped
         }
     }
