@@ -8,6 +8,8 @@
         name: "{{ queue_name }}"
         endpoint_url: "{{ queue_endpoint }}"
         region: us-east-1
+        access_key: "{{ aws_access_key }}"
+        secret_key: "{{ aws_secret_key }}"
 
   rules:
     - name: Run Ping
