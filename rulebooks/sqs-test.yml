@@ -1,0 +1,17 @@
+---
+
+- name: AWS SQS Test
+  hosts: all
+
+  sources:
+    - ansible.eda.aws_sqs_queue:
+        name: "{{ queue_name }}"
+
+  rules:
+    - name: Run Ping
+      condition: |
+        event.body is defined
+      action:
+        run_job_template:
+          name: Ping
+          organization: Default
