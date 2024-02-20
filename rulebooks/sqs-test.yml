@@ -6,6 +6,7 @@
   sources:
     - ansible.eda.aws_sqs_queue:
         name: "{{ queue_name }}"
+        endpoint_url: "{{ queue_endpoint }}"
 
   rules:
     - name: Run Ping
