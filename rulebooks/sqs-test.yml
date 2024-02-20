@@ -17,5 +17,5 @@
         event.body is defined
       action:
         run_job_template:
-          name: Ping
+          name: Long
           organization: Default
