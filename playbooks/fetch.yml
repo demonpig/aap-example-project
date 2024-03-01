@@ -8,7 +8,7 @@
     - name: Fetch requested file
       ansible.builtin.fetch:
         src: "{{ filename }}"
-        dest: "/tmp"
+        dest: /tmp/
         flat: true
 
     - name: List out file contents
