@@ -12,4 +12,4 @@
         flat: true
 
     - name: List out file contents
-      ansible.builtin.command: find /tmp
+      ansible.builtin.command: cat /tmp/{{ filename }}
