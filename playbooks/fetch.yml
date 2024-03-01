@@ -1,0 +1,12 @@
+---
+
+- name: Testing ansible.builtin.fetch
+  hosts: all
+  gather_facts: false
+  
+  tasks:
+    - name: Fetch requested file
+      ansible.builtin.fetch:
+        src: "{{ filename }}"
+        dest: "/tmp"
+        flat: true
