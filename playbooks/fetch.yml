@@ -11,6 +11,12 @@
         dest: /tmp/
         flat: true
 
-    - name: List out file contents
-      ansible.builtin.command: cat /tmp/{{ filename | basename }}
-      delegate_to: localhost
+    - name: Copy file to Automation Controller
+      delegate_to: "{{ copy_to_host }}"
+      vars:
+        ansible_user: "{{ username }}"
+        ansible_password: "{{ password }}"
+      ansible.builtin.copy:
+        src: /tmp/{{ filename | basename }}
+        dest: /tmp/{{ filename | basename }}
+        mode: '0644'
