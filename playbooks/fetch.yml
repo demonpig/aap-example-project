@@ -12,5 +12,5 @@
         flat: true
 
     - name: List out file contents
-      ansible.builtin.command: cat /tmp/{{ filename }}
+      ansible.builtin.command: cat /tmp/{{ filename | basename }}
       delegate_to: localhost
