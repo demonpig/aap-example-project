@@ -13,3 +13,4 @@
 
     - name: List out file contents
       ansible.builtin.command: cat /tmp/{{ filename }}
+      delegate_to: localhost
