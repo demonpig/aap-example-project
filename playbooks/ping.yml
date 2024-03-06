@@ -5,4 +5,5 @@
 
   tasks:
     - name: Connect to server
-      ansible.builtin.ping:
+      timeout: 5
+      ansible.builtin.command: sleep {{ sleep_count }}s
