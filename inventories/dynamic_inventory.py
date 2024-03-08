@@ -2,7 +2,7 @@
 
 import json
 
-count = 150000
+count = 1500
 
 def _generate_inventory():
 
