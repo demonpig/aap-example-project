@@ -1,8 +1,13 @@
 ---
 
 collections:
-  - name: awx.awx
-  - name: ansible.windows
+  - name: community.general
+    source: https://galaxy.ansible.com
+    
+  - name: servicenow.servicenow
+    source: https://galaxy.ansible.com
+  # - name: awx.awx
+  # - name: ansible.windows
   #- name: ansible.posix
   #- name: azure.azcollection
   #- name: community.general
