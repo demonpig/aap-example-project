@@ -1,0 +1,14 @@
+---
+
+- name: Run ansible.builtin.gather_facts in a loop
+  hosts: all
+  gather_facts: false
+
+  vars:
+    count: "{{ loop_count | default(10) }}"
+
+  tasks:
+    - name: Run the loop
+      with_sequence: start=0 end={{ count }}
+      ansible.builtin.gather_facts:
+        parallel: true
