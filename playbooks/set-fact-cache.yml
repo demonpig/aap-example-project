@@ -1,0 +1,27 @@
+---
+
+- name: Set Facts with cacheable
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Set the fqdn to undefined
+      ansible.builtin.set_fact:
+        fqdn:
+
+    - name: Lookup and set FQDN
+      block:
+        - name: Use dig to lookup the FQDN
+          ansible.builtin.set_fact:
+            raw_dns: "{{  ansible_default_ipv4.address }}/PTR') }}"
+            cachable: false
+          delegate_to: localhost
+
+        - name: Set the FQDN if only one item is returned
+          ansible.builtin.set_fact:
+            fqdn: "{{ raw_dns }}"
+            cachable: true
+          when: '"," not in raw_dns'
+
+    - name: print fqdn
+      debug: var=fqdn
