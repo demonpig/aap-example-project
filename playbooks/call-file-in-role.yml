@@ -1,0 +1,10 @@
+---
+
+- name: Call rclone role
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Import role
+      ansible.builtin.include_role:
+        name: rclone
