@@ -7,7 +7,7 @@
   tasks:
     - name: Aggregate facts from previous playbook
       ansible.builtin.set_fact:
-        ag_variable_1: "{{ ansible_facts[inventory_hostname]['variable_1'] }}"
+        ag_variable_1: "{{ ansible_facts['variable_1'] }}"
 
     - name: Export following variables
       ansible.builtin.set_stats:
