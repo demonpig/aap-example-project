@@ -7,4 +7,4 @@
   tasks:
     - name: Import role
       ansible.builtin.include_role:
-        name: demonpig.rclone
+        name: rclone
