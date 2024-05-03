@@ -119,6 +119,7 @@ class CallbackModule(CallbackBase):
 
         self.output = []
         self.play = None
+
         super(CallbackModule, self).__init__()
 
     def print_out(self, s):
