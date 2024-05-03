@@ -137,6 +137,7 @@ class CallbackModule(CallbackBase):
         self.record_vars = []
         self.record_hosts = []
 
+        self._ignore_startwith = ('ansible_', 'inventory_', 'tower_', 'awx_', 'remote_')
         self._ignore_vars = ('vars', 'hostvars', 'groups', 'group_names', 'omit', 'playbook_dir', 'play', 'play_hosts', 'role_names')
 
         super(CallbackModule, self).__init__()
@@ -175,11 +176,13 @@ class CallbackModule(CallbackBase):
                 continue
 
             allvars = self.play.get_variable_manager().get_vars(play=self.play, host=host, task=self.previous_task)
-            for key in self.play.get_variable_manager().get_vars(play=self.play, host=host, task=self.previous_task).keys():
-                # Remove some of the common variables that would be set by ansible
-                # our goal here is to get the playbook variables
-                if key.startswith("ansible_") or key.startswith('inventory_') or key in self._ignore_vars:
-                    allvars.pop(key)
+
+            # Cleanup of any ansible-specific or awx-specific variables
+            remove_vars = []
+            remove_vars += [key for ignore_var in self._ignore_startwith for key in allvars.keys() if key.startswith(ignore_var)]
+            remove_vars += [key for key in allvars.keys() if key in self._ignore_vars]
+            for remove_var in remove_vars:
+                allvars.pop(remove_var)
 
             if self.record_vars:
                 common_vars = [h_var if r_var == h_var else '' for r_var in self.record_vars for h_var in allvars.keys()]
@@ -234,8 +237,8 @@ class CallbackModule(CallbackBase):
         self._record_variables()
 
         for task in self.task_vars:
-            print(f"TASK: {task.get('task_name')} ({task.get('task_uuid')})")
+            self._display.display(f"TASK: {task.get('task_name')} ({task.get('task_uuid')})")
             for host in task.get('hosts', []):
-                print(f"HOST: {host.get('host')}")
-                print(json.dumps(host.get('variables'), indent=4, default=str))
-                print()
+                self._display.display(f"HOST: {host.get('host')}")
+                self._display.display(json.dumps(host.get('variables'), indent=4, default=str))
+                self._display.display("")
