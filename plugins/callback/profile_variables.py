@@ -113,7 +113,7 @@ class CallbackModule(CallbackBase):
     CALLBACK_VERSION = 2.0
     CALLBACK_TYPE = 'aggregate'
     CALLBACK_NAME = 'profile_variables'
-    CALLBACK_NEEDS_WHITELIST = True
+    #CALLBACK_NEEDS_WHITELIST = True
 
     def __init__(self):
         # Structure
@@ -133,9 +133,9 @@ class CallbackModule(CallbackBase):
 
         self.play = None
 
-        self.record_tasks = None
-        self.record_vars = None
-        self.record_hosts = None
+        self.record_tasks = []
+        self.record_vars = []
+        self.record_hosts = []
 
         self._ignore_vars = ('vars', 'hostvars', 'groups', 'group_names', 'omit', 'playbook_dir', 'play', 'play_hosts', 'role_names')
 
@@ -146,25 +146,16 @@ class CallbackModule(CallbackBase):
         super(CallbackModule, self).set_options(task_keys=task_keys, var_options=var_options, direct=direct)
 
         record_tasks = self.get_option('record_tasks')
-        match len(record_tasks):
-            case 0:
-                self.record_tasks = []
-            case _:
-                self.record_tasks = record_tasks.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+        if record_tasks and isinstance(record_tasks, str):
+            self.record_tasks = record_tasks.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
 
         record_vars = self.get_option('record_vars')
-        match len(record_vars):
-            case 0:
-                self.record_vars = []
-            case _:
-                self.record_vars = record_vars.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+        if record_vars and isinstance(record_vars, str):
+            self.record_vars = record_vars.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
 
         record_hosts = self.get_option('record_hosts')
-        match len(record_hosts):
-            case 0:
-                self.record_hosts = []
-            case _:
-                self.record_hosts = record_hosts.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+        if record_hosts and isinstance(record_hosts, str):
+            self.record_hosts = record_hosts.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
 
     def _record_variables(self):
         if self.record_tasks:
@@ -209,28 +200,19 @@ class CallbackModule(CallbackBase):
         #       I am simply re-using the above code as I know it works
         extra_vars = self.play.get_variable_manager().extra_vars
         if 'profile_variables_record_tasks' in extra_vars:
-          record_tasks = extra_vars.get('profile_variables_record_tasks', '')
-          match len(record_tasks):
-              case 0:
-                  self.record_tasks = []
-              case _:
-                  self.record_tasks = record_tasks.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+            record_tasks = extra_vars.get('profile_variables_record_tasks', '')
+            if record_tasks and isinstance(record_tasks, str):
+                self.record_tasks = record_tasks.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
 
         if 'profile_variables_record_vars' in extra_vars:
-          record_vars = extra_vars.get('profile_variables_record_vars', '')
-          match len(record_vars):
-              case 0:
-                  self.record_vars = []
-              case _:
-                  self.record_vars = record_vars.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+            record_vars = extra_vars.get('profile_variables_record_vars', '')
+            if record_vars and isinstance(record_vars, str):
+                self.record_vars = record_vars.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
 
         if 'profile_variables_record_hosts' in extra_vars:
             record_hosts = extra_vars.get('profile_variables_record_hosts', '')
-            match len(record_hosts):
-                case 0:
-                    self.record_hosts = []
-                case _:
-                    self.record_hosts = record_hosts.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+            if record_hosts and isinstance(record_hosts, str):
+                self.record_hosts = record_hosts.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
 
     def v2_playbook_on_task_start(self, task, is_conditional):
         if self.previous_task:
