@@ -1,8 +1,6 @@
 # (C) 2024, Max Mitschke, https://github.com/demonpig
+# (C) 2024, Ryan Erickson, https://gitlab.com/epryan
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-# This plugin was heavily influenced by 'ansible.posix.profile_tasks'
-# Link: https://github.com/ansible-collections/ansible.posix
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
@@ -39,7 +37,7 @@ options:
     description: |
       Capture variable data for a variable or set of variables. The names must match the actual variable names.
 
-      Use a semicolon (:) to specify multiple strings to look for in the variables name.
+      Use a semicolon (:) to specify multiple strings to look for in the variable's name.
 
       'profile_variables_record_vars' must be used as an extra variable via the `-e` flag; can also
       use `-e @vars.yml` to include variables from a file.
@@ -57,7 +55,7 @@ options:
     description: |
       Capture variable data for a host or set of hosts. The names must match the inventory_hostname.
 
-      Use a semicolon (:) to specify multiple strings to look for in the variables name.
+      Use a semicolon (:) to specify multiple strings to look for in the inventory_hostname.
 
       'profile_variables_record_hosts' must be used as an extra variable via the `-e` flag; can also
       use `-e @vars.yml` to include variables from a file.
@@ -113,132 +111,91 @@ class CallbackModule(CallbackBase):
     CALLBACK_VERSION = 2.0
     CALLBACK_TYPE = 'aggregate'
     CALLBACK_NAME = 'profile_variables'
-    #CALLBACK_NEEDS_WHITELIST = True
 
     def __init__(self):
-        # Structure
-        # [
-        #     {
-        #         'TASK_NAME': ''
-        #         'HOSTS': [
-        #             {
-        #                 'HOST': ''
-        #                 'VARIABLES': ''
-        #             }
-        #         }
-        #     }
-        # ]
-        self.task_vars = []
-        self.previous_task = None
+        self.record_tasks = None
+        self.record_vars = None
+        self.record_hosts = None
 
+        self.output = []
         self.play = None
-
-        self.record_tasks = []
-        self.record_vars = []
-        self.record_hosts = []
-
-        self._ignore_startwith = ('ansible_', 'inventory_', 'tower_', 'awx_', 'remote_')
-        self._ignore_vars = ('vars', 'hostvars', 'groups', 'group_names', 'omit', 'playbook_dir', 'play', 'play_hosts', 'role_names')
-
         super(CallbackModule, self).__init__()
 
-    def set_options(self, task_keys=None, var_options=None, direct=None):
+    def print_out(self, s):
+        self._display.display(f"{s}")
 
-        super(CallbackModule, self).set_options(task_keys=task_keys, var_options=var_options, direct=direct)
+    def parse_var(self, name, val):
+        retval = []
 
-        record_tasks = self.get_option('record_tasks')
-        if record_tasks and isinstance(record_tasks, str):
-            self.record_tasks = record_tasks.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+        if isinstance(val, str):
+            self.print_out(f"Parsing '{name}' from string to list ...")
+            if len(val) > 0:
+                retval = val.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
 
-        record_vars = self.get_option('record_vars')
-        if record_vars and isinstance(record_vars, str):
-            self.record_vars = record_vars.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+        elif isinstance(val, list):
+            self.print_out(f"Using '{name}' list as is ...")
+            retval = val
+        else:
+            # NOTE: All variables currently "optional" in that the callback does nothing if given nothing
+            self.print_out(f"Optional variable '{name}' is neither a string or a list. The profile_variables callback plugin requires variables in string or list format. Please see docs.")
+            # TODO: plugin is continuing with undefined behavior at this point. It should terminate itself and not run.
 
-        record_hosts = self.get_option('record_hosts')
-        if record_hosts and isinstance(record_hosts, str):
-            self.record_hosts = record_hosts.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+        self.print_out(f"{name}={retval}")
+        return retval
 
-    def _record_variables(self):
-        if self.record_tasks:
-            checks = [True if x in self.previous_task.get_name() else False for x in self.record_tasks]
-            if not all(checks):
-                return
+    def record(self, host, task):
+        hostname = host.get_name()
+        taskname = task.get_name()
 
-        task_obj = {
-            'task_uuid': self.previous_task._uuid,
-            'task_name': self.previous_task.get_name(),
-            'hosts': []
-        }
+        # If no var list or task list is specified, do not record
+        if not self.record_vars and not self.record_tasks:
+            return
 
-        # Record variables for each host right before the task is executed
-        for host in self.play.get_variable_manager()._inventory.list_hosts():
-            if self.record_hosts and str(host) not in self.record_hosts:
-                continue
+        # If a host list is specified, only record tasks for that host
+        if self.record_hosts and hostname not in self.record_hosts:
+            return
 
-            allvars = self.play.get_variable_manager().get_vars(play=self.play, host=host, task=self.previous_task)
+        # If a task list is specified, only record tasks that pattern match
+        if self.record_tasks and not any([wanted_taskname in taskname for wanted_taskname in self.record_tasks]):
+            return
 
-            # Cleanup of any ansible-specific or awx-specific variables
-            remove_vars = []
-            remove_vars += [key for ignore_var in self._ignore_startwith for key in allvars.keys() if key.startswith(ignore_var)]
-            remove_vars += [key for key in allvars.keys() if key in self._ignore_vars]
-            for remove_var in remove_vars:
-                allvars.pop(remove_var)
+        allvars = self.play.get_variable_manager().get_vars(play=self.play, host=host, task=task)['vars']
+        hostvars = dict(allvars['hostvars'][hostname])
 
-            if self.record_vars:
-                common_vars = [h_var if r_var == h_var else '' for r_var in self.record_vars for h_var in allvars.keys()]
-                allvars = {name:allvars.get(name) for name in common_vars if allvars.get(name)}
+        retvars = {}
+        for wanted_var in self.record_vars:
+            retvars[wanted_var] = allvars.get(wanted_var) or hostvars.get(wanted_var) or 'VARIABLE IS UNDEFINED'
 
-            task_obj['hosts'].append({'host': host, 'variables': allvars})
-
-        if task_obj.get('hosts', []):
-            self.task_vars.append(task_obj)
+        self.output.append({
+            'host': hostname,
+            'task': taskname,
+            'task_arguments': task.args,
+            'task_variables': task.get_vars(),
+            'tracked_variables': retvars
+        })
 
     def v2_playbook_on_play_start(self, play):
-        # Capturing the play in order to use it to get any role variables
-        # from the VariableManager
         self.play = play
 
-        # Check to see if there extra_vars are being being specified
-        # TODO: Fix this up as there is definitely a better way to do this
-        #       I am simply re-using the above code as I know it works
         extra_vars = self.play.get_variable_manager().extra_vars
-        if 'profile_variables_record_tasks' in extra_vars:
-            record_tasks = extra_vars.get('profile_variables_record_tasks', '')
-            if record_tasks and isinstance(record_tasks, str):
-                self.record_tasks = record_tasks.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
 
-        if 'profile_variables_record_vars' in extra_vars:
-            record_vars = extra_vars.get('profile_variables_record_vars', '')
-            if record_vars and isinstance(record_vars, str):
-                self.record_vars = record_vars.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+        self.record_tasks = self.parse_var(
+            'record_tasks',
+            extra_vars.get('profile_variables_record_tasks') or self.get_option('record_tasks')
+        )
 
-        if 'profile_variables_record_hosts' in extra_vars:
-            record_hosts = extra_vars.get('profile_variables_record_hosts', '')
-            if record_hosts and isinstance(record_hosts, str):
-                self.record_hosts = record_hosts.strip('"').strip("'").lstrip(':').rstrip(':').split(':')
+        self.record_vars = self.parse_var(
+            'record_vars',
+            extra_vars.get('profile_variables_record_vars') or self.get_option('record_vars')
+        )
 
-    def v2_playbook_on_task_start(self, task, is_conditional):
-        if self.previous_task:
-            self._record_variables()
+        self.record_hosts = self.parse_var(
+            'record_hosts',
+            extra_vars.get('profile_variables_record_hosts') or self.get_option('record_hosts')
+        )
 
-        self.previous_task = task
-
-    def v2_playbook_on_handler_task_start(self, task):
-        if self.previous_task:
-            self._record_variables()
-
-        self.previous_task = task
+    def v2_runner_on_start(self, host, task):
+        self.record(host, task)
 
     def v2_playbook_on_stats(self, stats):
-        """
-        Prints changes to the variables throughout the tasks
-        """
-        # Recording the state of variables for the last task executed
-        self._record_variables()
-
-        for task in self.task_vars:
-            self._display.display(f"TASK: {task.get('task_name')} ({task.get('task_uuid')})")
-            for host in task.get('hosts', []):
-                self._display.display(f"HOST: {host.get('host')}")
-                self._display.display(json.dumps(host.get('variables'), indent=4, default=str))
-                self._display.display("")
+        self.print_out(json.dumps(self.output, indent=4, default=str))
