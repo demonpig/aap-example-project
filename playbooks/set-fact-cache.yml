@@ -5,6 +5,9 @@
   gather_facts: true
 
   tasks:
+    - name: Get environment variables
+      ansible.builtin.command: env
+
     - name: Use dig to lookup the FQDN
       ansible.builtin.set_fact:
         variable_1: '123'
