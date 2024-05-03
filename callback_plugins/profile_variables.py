@@ -10,20 +10,29 @@ name: profile_variables
 type: aggregate
 short_description: Track changes to variables throughout playbook run
 description:
-- Ansible callback plugin used for tracking changes to variables throughout
-- a playbook's execution.
+  - Ansible callback plugin used for tracking changes to variables throughout a playbook's execution.
 requirements:
-- enable in configuration - see examples section below for details.
+  - Enable in configuration - see examples section below for details.
 options:
+  record_hosts:
+    description:
+      - Capture variable data from a host or set of hosts. Values must match the hosts' `inventory_hostname`.
+      - Provide either a string with entries separated by a semicolon (:) to specify multiple strings or provide a list.
+      - The variable `profile_variables_record_hosts` must be used as an extra variable via the `-e` flag; can also use `-e @vars.yml` to include variables from a file.
+    default: ""
+    type: string
+    env:
+      - name: PROFILE_VARIABLES_RECORD_HOSTS
+    ini:
+      - section: callback_profile_variables
+        key: record_hosts
+    vars:
+      - name: profile_variables_record_hosts
   record_tasks:
-    description: |
-      Capture variable data from a task or set of tasks. Values must be within the task name.
-
-      Use a semicolon (:) to specify multiple strings to look for in the task's name.
-
-      'profile_variables_record_tasks' must be used as an extra variable via the `-e` flag; can also
-      use `-e @vars.yml` to include variables from a file.
-
+    description:
+      - Capture variable data from a task or set of tasks. Values must be within the task name.
+      - Provide either a string with entries separated by a semicolon (:) to specify multiple strings or provide a list.
+      - The variable `profile_variables_record_tasks` must be used as an extra variable via the `-e` flag; can also use `-e @vars.yml` to include variables from a file.
     default: ""
     type: string
     env:
@@ -34,14 +43,10 @@ options:
     vars:
       - name: profile_variables_record_tasks
   record_vars:
-    description: |
-      Capture variable data for a variable or set of variables. The names must match the actual variable names.
-
-      Use a semicolon (:) to specify multiple strings to look for in the variable's name.
-
-      'profile_variables_record_vars' must be used as an extra variable via the `-e` flag; can also
-      use `-e @vars.yml` to include variables from a file.
-
+    description:
+      - Capture variable data from a variable or set of variables. Values must match the variable name.
+      - Provide either a string with entries separated by a semicolon (:) to specify multiple strings or provide a list.
+      - The variable `profile_variables_record_vars` must be used as an extra variable via the `-e` flag; can also use `-e @vars.yml` to include variables from a file.
     default: ""
     type: string
     env:
@@ -51,55 +56,219 @@ options:
         key: record_vars
     vars:
       - name: profile_variables_record_vars
-  record_hosts:
-    description: |
-      Capture variable data for a host or set of hosts. The names must match the inventory_hostname.
-
-      Use a semicolon (:) to specify multiple strings to look for in the inventory_hostname.
-
-      'profile_variables_record_hosts' must be used as an extra variable via the `-e` flag; can also
-      use `-e @vars.yml` to include variables from a file.
-
-    default: ""
-    type: string
-    env:
-      - name: PROFILE_VARIABLES_RECORD_HOSTS
-    ini:
-      - section: callback_profile_variables
-        key: record_hosts
-    vars:
-      - name: profile_variables_record_hosts
 '''
 
 EXAMPLES = '''
-example: >
-To enable, add this to your ansible.cfg file in the defaults block
+ENABLE: >
+  Add the following to an `ansible.cfg` file
+
     [defaults]
-    callbacks_enabled=profile_variables
-sample output: >
-    # PLAY [Test Playbook] ***************************************
-    #
-    # TASK [Use ansible.builtin.set_fact once] *******************
-    # ok: [localhost]
-    #
-    # TASK [Use ansible.builtin.set_fact twice] ******************
-    # ok: [localhost]
-    #
-    # PLAY RECAP ***********************************************
-    # localhost                  : ok=2    changed=0 ...
-    #
-    # TASK: Use ansible.builtin.set_fact once (0271cbca-edf7-66fa-7c0d-000000000004)
-    # HOST: localhost
-    # {
-    #     "test_var": 1
-    # }
-    #
-    # TASK: Use ansible.builtin.set_fact twice (0271cbca-edf7-66fa-7c0d-000000000005)
-    # HOST: localhost
-    # {
-    #     "test_var": 2,
-    #     "random_var": "hello"
-    # }
+    callbacks_enabled = profile_variables
+
+    # [callback_profile_variables]
+    # record_hosts = ""
+    # record_tasks = ""
+    # record_vars  = ""
+
+  Another option is to use the environment variable ANSIBLE_CALLBACK_PLUGINS
+
+    ANSIBLE_CALLBACK_PLUGINS="profile_variables" ansible-playbook -i inventory playbook.yml
+
+SAMPLE_COMMANDS: >
+
+  Here are ways to utilize the different variables for the plugin
+
+    # Passing in extra variables (must encapsulate the entire variable and its value in quotes)
+
+    ansible-playbook -i inventory -e "profile_variables_record_vars='variable_name'"
+
+
+    # Add variables to vars.yml (filename is arbitrary)
+
+    ```
+    ---
+    profile_variables_record_tasks:
+      - task_name
+      - task with spaces
+    ```
+
+    ansible-playbook -i inventory -e @vars.yml playbook.yml
+
+
+    # Use environment variables
+
+    PROFILE_VARIABLES_RECORD_HOSTS="localhost" PROFILE_VARIABLES_RECORD_TASKS="debug" ansible-playbook -i inventory playbook.yml
+
+
+SAMPLE_OUTPUT: >
+
+  # PLAY [all] **************************************************************************************************************************
+  # Parsing 'record_tasks' from string to list ...
+  # record_tasks=['']
+  # Parsing 'record_vars' from string to list ...
+  # record_vars=['var_on_play']
+  # Parsing 'record_hosts' from string to list ...
+  # record_hosts=['hosta']
+
+  # TASK [Debug 1] **********************************************************************************************************************
+  # ok: [hosta] => {
+  #     "msg": "hello play"
+  # }
+  # ok: [hostb] => {
+  #     "msg": "hello play"
+  # }
+
+  # TASK [Instantiate another value] ****************************************************************************************************
+  # ok: [hosta]
+  # ok: [hostb]
+
+  # TASK [Debug 2] **********************************************************************************************************************
+  # ok: [hosta] => (item=var_on_play) => {
+  #     "ansible_loop_var": "item",
+  #     "item": "var_on_play",
+  #     "var_on_play": "hello play"
+  # }
+  # ok: [hosta] => (item=var_set_during_play) => {
+  #     "ansible_loop_var": "item",
+  #     "item": "var_set_during_play",
+  #     "var_set_during_play": "hello set_fact"
+  # }
+  # ok: [hostb] => (item=var_on_play) => {
+  #     "ansible_loop_var": "item",
+  #     "item": "var_on_play",
+  #     "var_on_play": "hello play"
+  # }
+  # ok: [hostb] => (item=var_set_during_play) => {
+  #     "ansible_loop_var": "item",
+  #     "item": "var_set_during_play",
+  #     "var_set_during_play": "hello set_fact"
+  # }
+
+  # TASK [Include Role] *****************************************************************************************************************
+
+  # TASK [OneDebugRole : Debug In Role] *************************************************************************************************
+  # ok: [hosta] => {
+  #     "msg": "Consider it included!"
+  # }
+  # ok: [hostb] => {
+  #     "msg": "Consider it included!"
+  # }
+
+  # TASK [Trigger Handler] **************************************************************************************************************
+  # changed: [hosta] => {
+  #     "msg": "Triggering Handler"
+  # }
+  # changed: [hostb] => {
+  #     "msg": "Triggering Handler"
+  # }
+
+  # RUNNING HANDLER [handleit] **********************************************************************************************************
+  # ok: [hosta] => {
+  #     "msg": "Consider it handled"
+  # }
+  # ok: [hostb] => {
+  #     "msg": "Consider it handled"
+  # }
+
+  # PLAY RECAP **************************************************************************************************************************
+  # hosta                      : ok=6    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+  # hostb                      : ok=6    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+  # [
+  #     {
+  #         "host": "hosta",
+  #         "task": "Debug 1",
+  #         "task_arguments": {
+  #             "msg": "{{ var_on_play }}"
+  #         },
+  #         "task_variables": {
+  #             "var_on_block": "hello block"
+  #         },
+  #         "tracked_variables": {
+  #             "var_on_play": "hello play"
+  #         }
+  #     },
+  #     {
+  #         "host": "hosta",
+  #         "task": "Instantiate another value",
+  #         "task_arguments": {
+  #             "var_set_during_play": "hello set_fact"
+  #         },
+  #         "task_variables": {
+  #             "var_on_block": "hello block"
+  #         },
+  #         "tracked_variables": {
+  #             "var_on_play": "hello play"
+  #         }
+  #     },
+  #     {
+  #         "host": "hosta",
+  #         "task": "Debug 2",
+  #         "task_arguments": {
+  #             "var": "{{ item }}"
+  #         },
+  #         "task_variables": {
+  #             "var_on_block": "hello block"
+  #         },
+  #         "tracked_variables": {
+  #             "var_on_play": "hello play"
+  #         }
+  #     },
+  #     {
+  #         "host": "hosta",
+  #         "task": "Include Role",
+  #         "task_arguments": {
+  #             "name": "OneDebugRole"
+  #         },
+  #         "task_variables": {
+  #             "var_on_block": "hello block",
+  #             "message": "Consider it included!"
+  #         },
+  #         "tracked_variables": {
+  #             "var_on_play": "hello play"
+  #         }
+  #     },
+  #     {
+  #         "host": "hosta",
+  #         "task": "OneDebugRole : Debug In Role",
+  #         "task_arguments": {
+  #             "msg": "{{ message }}"
+  #         },
+  #         "task_variables": {
+  #             "var_on_block": "hello block",
+  #             "message": "Consider it included!"
+  #         },
+  #         "tracked_variables": {
+  #             "var_on_play": "hello play"
+  #         }
+  #     },
+  #     {
+  #         "host": "hosta",
+  #         "task": "Trigger Handler",
+  #         "task_arguments": {
+  #             "msg": "Triggering Handler"
+  #         },
+  #         "task_variables": {
+  #             "var_on_block": "hello block"
+  #         },
+  #         "tracked_variables": {
+  #             "var_on_play": "hello play"
+  #         }
+  #     },
+  #     {
+  #         "host": "hosta",
+  #         "task": "handleit",
+  #         "task_arguments": {
+  #             "msg": "{{ message }}"
+  #         },
+  #         "task_variables": {
+  #             "message": "Consider it handled"
+  #         },
+  #         "tracked_variables": {
+  #             "var_on_play": "hello play"
+  #         }
+  #     }
+  # ]
 '''
 
 import json
