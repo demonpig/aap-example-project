@@ -10,4 +10,4 @@
 
     - name: "Task with timeout"
       timeout: "{{ task_timeout | default(2) }}"
-      ansible.buitlin.command: sleep 10s
+      ansible.builtin.command: sleep 10s
