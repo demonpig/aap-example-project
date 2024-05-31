@@ -1,0 +1,10 @@
+---
+
+- name: Test
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Run task on tower_execution_node
+      delegate_to: "{{ tower_execution_node }}"
+      ansible.builtin.command: hostname
