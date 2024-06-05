@@ -2,6 +2,7 @@
 
 - name: Long Playbook
   hosts: all
+  strategy: "{{ pb_strategy | default(omit) }}"
 
   vars:
     sleep_time: 30
