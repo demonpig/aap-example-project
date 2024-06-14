@@ -5,6 +5,7 @@
 
   sources:
     - ansible.eda.url_check:
+        verify_ssl: false
         delay: "{{ delay }}"
         urls:
           - "{{ url }}"
@@ -12,13 +13,18 @@
   rules:
     - name: Website is up
       condition: event.url_check.status == "up"
+      throttle:
+        once_after: 1 minutes
+        group_by_attributes:
+          - event.url_check.status
       action:
-        run_job_template:
-          name: Ping Website
-          organization: Default
+        print_event:
 
     - name: Website is not up
       condition: event.url_check.status == "down"
+      throttle:
+        once_after: 1 minutes
+        group_by_attributes:
+          - event.url_check.status
       action:
-        run_playbook:
-          name: playbooks/ping.yml
+        print_event:
