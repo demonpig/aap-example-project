@@ -2,4 +2,4 @@
 
 command -v python || exit 100
 
-python dynamic_inventory.py
+python3 dynamic_inventory.py
