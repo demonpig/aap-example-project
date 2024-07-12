@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
-command -v python || exit 100
+PYTHON_BIN="python3"
 
-python3 dynamic_inventory.py
+command -v $PYTHON_BIN || exit 100
+
+$PYTHON_BIN dynamic_inventory.py
