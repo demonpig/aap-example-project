@@ -1,9 +1,5 @@
 #!/bin/sh
 
-TEMP_FILE="$RANDOM"
+ls $CUSTOM_VAULT_INVENTORY > /dev/null || { echo "Inventory not found" ; exit 2; }
 
-ansible-vault view --vault-password-file=${FOOBAR:-""} "$(dirname $0)/${ENCRYPTED_FILENAME:-encrypted-inventory.yml}" > $TEMP_FILE
-
-ansible-inventory --list --export -i $TEMP_FILE
-
-rm -f $TEMP_FILE
+ansible-inventory --list --export --vault-password-file ${CUSTOM_VAULT_PASSWORD_FILE:-""} -i "$(dirname $0)/$CUSTOM_VAULT_INVENTORY"
