@@ -1,0 +1,117 @@
+---
+
+- name: Playbook with a lot of tasks
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+    - name: 1-task
+      tags: 1-task
+      ansible.builtin.shell: hexdump -C /dev/urandom | head -n $RANDOM
+
+    - name: 5-task
+      tags: 5-task
+      block:
+        - name: 5-task-generate-random-output
+          ansible.builtin.shell: hexdump -C /dev/urandom | head -n $RANDOM
+
+        - name: 5-task-install-something
+          ansible.builtin.package:
+            name: httpd
+            state: latest
+
+        - name: 5-task-configure-something
+          ansible.builtin.lineinfile:
+            path: /etc/httpd/conf/httpd.conf
+            regexp: '^Listen '
+            insertafter: '^#Listen '
+            line: Listen 8080
+
+        - name: 5-task-check-for-services
+          ansible.builtin.service_facts:
+
+        - name: 5-task-debug-the-services
+          ansible.builtin.debug:
+            var: ansible_facts.services
+
+    - name: 15-task
+      tags: 15-task
+      block:
+        - name: 15-task-generate-random-output
+          ansible.builtin.shell: hexdump -C /dev/urandom | head -n $RANDOM
+
+        - name: 15-task-install-something
+          ansible.builtin.package:
+            name: nginx
+            state: latest
+
+        - name: 15-task-configure-something
+          ansible.builtin.lineinfile:
+            path: /etc/hosts
+            regexp: '^127\.0\.0\.1'
+            line: 127.0.0.1 localhost
+            owner: root
+            group: root
+            mode: '0644'
+
+        - name: 15-task-check-for-services
+          ansible.builtin.service_facts:
+
+        - name: 15-task-debug-the-services
+          ansible.builtin.debug:
+            var: ansible_facts.services
+
+        - name: 15-task-restart-a-service
+          ignore_errors: true
+          ansible.builtin.service:
+            name: httpd
+            state: restarted
+            enabled: false
+
+        - name: 15-task-create-random-file
+          delegate_to: localhost
+          become: false
+          ansible.builtin.shell: echo {{ inventory_hostname }} > /tmp/{{ inventory_hostname }}.txt
+
+        - name: 15-task-copy-random-file
+          ansible.builtin.copy:
+            src: /tmp/{{ inventory_hostname }}.txt
+            dest: /tmp/{{ inventory_hostname }}.txt
+            owner: root
+            group: root
+            mode: 0755
+
+        - name: 15-task-generate-random-output
+          ansible.builtin.shell: hexdump -C /dev/urandom | head -n $RANDOM
+
+        - name: 15-task-update-all-packages
+          ignore_errors: true
+          timeout: 600
+          ansible.builtin.package:
+            name: "*"
+            state: latest
+
+        - name: 15-task-download-a-file
+          ansible.builtin.get_url:
+            url: https://downloads.rclone.org/v1.67.0/rclone-v1.67.0-linux-amd64.rpm
+            dest: /tmp/rclone-v1.67.0-linux-amd64.rpm
+            owner: root
+            group: root
+            mode: 0644
+
+        - name: 15-task-generate-password
+          ansible.builtin.set_fact:
+            random_pod_name: "web-{{ lookup('ansible.builtin.password', '/dev/null', chars=['ascii_lowercase', 'digits'], length=8) }}"
+
+        - name: 15-task-copy-hostvars
+          ansible.builtin.set_fact:
+            host: "{{ hostvars[inventory_hostname] }}"
+
+        - name: 15-task-generate-random-output
+          register: random_var_1
+          ansible.builtin.shell: hexdump -C /dev/urandom | head -n $RANDOM
+
+        - name: 15-task-generate-random-output
+          register: random_var_2
+          ansible.builtin.shell: hexdump -C /dev/urandom | head -n $RANDOM
