@@ -14,8 +14,8 @@
   tasks:
     - name: TASK
       notify: HANDLER
-      changed_when: inventory_hostname == "{{ changed_host | default(False) }}"
-      failed_when: inventory_hostname == "{{ failed_host | default(False) }}"
+      changed_when: inventory_hostname == "{{ changed_host | default(False, True) }}"
+      failed_when: inventory_hostname == "{{ failed_host | default(False, True) }}"
       ansible.builtin.debug:
         msg: "TASK"
 
