@@ -18,6 +18,10 @@
       ansible.builtin.debug:
         msg: "TASK"
 
+    - name: GOOD TASK
+      run_once: true
+      ansible.builtin.command: echo hello
+
   post_tasks:
     - name: POST_TASK
       ansible.builtin.debug:
