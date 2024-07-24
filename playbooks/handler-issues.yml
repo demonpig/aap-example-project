@@ -20,6 +20,7 @@
 
     - name: GOOD TASK
       run_once: true
+      changed_when: false
       ansible.builtin.command: echo hello
 
   post_tasks:
