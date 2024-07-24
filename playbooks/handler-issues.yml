@@ -1,0 +1,25 @@
+---
+
+- name: Test
+  hosts: all
+  gather_facts: false
+  strategy: "{{ strategy | default('linear') }}"
+
+  handlers:
+    - name: HANDLER
+      changed_when: true
+      ansible.builtin.debug:
+        msg: "HANDLER"
+
+  tasks:
+    - name: TASK
+      notify: HANDLER
+      changed_when: inventory_hostname == "{{ changed_host }}"
+      failed_when: inventory_hostname == "{{ failed_host }}"
+      ansible.builtin.debug:
+        msg: "TASK"
+
+  post_tasks:
+    - name: POST_TASK
+      ansible.builtin.debug:
+        msg: "POST_TASK"
