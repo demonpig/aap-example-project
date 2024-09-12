@@ -7,12 +7,10 @@
   vars:
     user_groups: []
 
-    command: "python "
-
   tasks:
     - name: Generate command
       ansible.builtin.set_fact:
-        command: "python {{ playbook_dir }}/main.py"
+        command: "python3 {{ playbook_dir }}/main.py"
 
     - name: Get ActiveDirectory data
       ansible.builtin.set_fact:
