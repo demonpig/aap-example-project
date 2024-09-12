@@ -20,16 +20,20 @@
     - name: Show data
       ansible.builtin.debug:
         var: user_check_mode_output_1
+        verbosity: 3
 
     - name: Massage data into large list
       loop: "{{ user_check_mode_output_1.objects }}"
+      no_log: "{{ nolog | default(true) }}"
       ansible.builtin.set_fact:
         user_groups: "{{ user_groups + [{'user_distinguished_name': item.DistinguishedName, 'user_city': item.l, 'user_upn': item.userPrincipalName}] }}"
 
     - name: Display users in group
       ansible.builtin.debug:
         var: user_groups
+        verbosity: 3
 
     - name: Display group size
       ansible.builtin.debug:
         msg: "{{ user_groups | length }}"
+        verbosity: 3
