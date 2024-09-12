@@ -10,7 +10,7 @@
   tasks:
     - name: Generate command
       ansible.builtin.set_fact:
-        command: "python3 {{ playbook_dir }}/main.py"
+        command: "python3 {{ playbook_dir }}/data.py"
 
     - name: Get ActiveDirectory data
       ansible.builtin.set_fact:
