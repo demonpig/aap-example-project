@@ -2,6 +2,12 @@
 
 collections:
   - name: community.general
+
+  - name: https://github.com/ansible/galaxy_collection.git
+    type: git
+
+  - name: https://github.com/ansible-collections/ansible_hub.git
+    type: git
   # - name: awx.awx
   # - name: ansible.windows
   #- name: ansible.posix
