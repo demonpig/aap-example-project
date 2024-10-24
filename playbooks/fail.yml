@@ -1,13 +1,17 @@
 ---
 
-- name: Playbook that fails
+- name: Playbook that has potential to fail
   hosts: all
   gather_facts: false
   
   tasks:
-    - ansible.builtin.ping:
-  
-    - ansible.builtin.fail:
-      when: "{{ condition | default(true) }}"
+    - name: Gather facts
+      when: "{{ should_gather_facts | default(True) }}"
+      ansible.builtin.setup:
+        gather_subset:
+          - min
 
-    - ansible.builtin.command: sleep 30s
+    - name: Fail playbook
+      when: "{{ should_fail | default(False) }}"
+      ansible.builtin.fail:
+        msg: Fail on purpose
