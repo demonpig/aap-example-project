@@ -6,12 +6,12 @@
   
   tasks:
     - name: Gather facts
-      when: should_gather_facts
+      when: should_gather_facts | default(True)
       ansible.builtin.setup:
         gather_subset:
           - min
 
     - name: Fail playbook
-      when: should_fail
+      when: should_fail | default(False)
       ansible.builtin.fail:
         msg: Fail on purpose
