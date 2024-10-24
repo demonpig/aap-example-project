@@ -3,6 +3,7 @@
 - name: Playbook that has potential to fail
   hosts: all
   gather_facts: false
+  serial: "{{ serial_number | default(omit) }}"
   
   tasks:
     - name: Gather facts
