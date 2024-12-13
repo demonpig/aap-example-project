@@ -18,5 +18,5 @@
 
     - name: Copy the file to destination
       ansible.builtin.copy:
-        src: filepath.path
+        src: "{{ filepath.path }}"
         dest: "{{ destination }}"
