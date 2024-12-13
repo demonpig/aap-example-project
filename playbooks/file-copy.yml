@@ -1,0 +1,22 @@
+---
+
+- name: Copy file to a directory
+  hosts: all
+  gather_facts: false
+
+  vars:
+    # This will be the suffix of a tempfile
+    suffix: ""
+
+    destination: ""
+
+  tasks:
+    - name: Create a tempfile with the suffix "{{ suffix | default('dummy_file') }}"
+      register: filepath
+      ansible.builtin.tempfile:
+        suffix: "{{ suffix | default('dummy_file', True) }}"
+
+    - name: Copy the file to destination
+      ansible.builtin.copy:
+        src: filepath.path
+        dest: "{{ destination }}"
