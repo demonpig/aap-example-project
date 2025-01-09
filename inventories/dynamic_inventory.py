@@ -25,7 +25,7 @@ def _generate_inventory():
         'ungrouped': {
             'hosts': ungrouped
         },
-        "group 1": {
+        "group_1": {
             'hosts': ungrouped[0:10]
         }
     }
