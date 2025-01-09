@@ -13,7 +13,7 @@ def _generate_inventory():
         name = "host_{}.local".format(i)
         hostvars[name] = {'ansible_host': '', 'ansible_connection': ''}
         hostvars[name]['ansible_host'] = '127.0.0.1'
-        hostvars[name]['ansible_connection'] = 'local' 
+        hostvars[name]['ansible_connection'] = 'local'
 
     data = {
         '_meta': {
@@ -24,6 +24,9 @@ def _generate_inventory():
         },
         'ungrouped': {
             'hosts': ungrouped
+        },
+        "group 1": {
+            'hosts': ungrouped[0:10]
         }
     }
 
