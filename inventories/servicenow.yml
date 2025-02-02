@@ -1,5 +1,13 @@
 ---
 
 plugin: servicenow.itsm.now
+table: cmdb_ci_linux_server
 columns:
   - name
+  - host_name
+  - fqdn
+  - ip_address
+  - os
+  - os_version
+  - support_group
+  - environment
