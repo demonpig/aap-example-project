@@ -1,7 +1,7 @@
 ---
 
 plugin: servicenow.itsm.now
-table: cmdb_ci_linux_server
+table: u_cmdb_ci_linux_server_simplified_view
 columns:
   - name
   - host_name
