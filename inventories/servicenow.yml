@@ -1,14 +1,15 @@
 ---
 
 plugin: servicenow.itsm.now
-table: u_cmdb_ci_linux_server_simplified_view
+table: cmdb_ci_linux_server
 columns:
-  - ansible_host
-#  - name
-#  - host_name
-#  - fqdn
-#  - ip_address
-#  - os
-#  - os_version
-#  - support_group
-#  - environment
+  - name
+  - host_name
+  - fqdn
+  - ip_address
+  - os
+  - os_version
+  - support_group
+  - environment
+
+sysparm_limit: 1000
