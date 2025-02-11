@@ -24,3 +24,6 @@ inventory_hostname_source: name
 leading_separator: false
 query:
   - install_status: = "1"
+  - u_type: = "Linux"
+  - u_support_groups: = "3D4ae3adfcdbcbbf8c08a0ef3c0b96190v"
+  - company: = "64bf185cdb499740991c56805b96195a"
