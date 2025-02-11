@@ -13,3 +13,14 @@ columns:
   - environment
 
 sysparm_limit: 1000
+
+compose:
+  sn_name: name
+
+keyed_groups:
+  - key: u_environment
+
+inventory_hostname_source: name
+leading_separator: false
+query:
+  - install_status: "1"
