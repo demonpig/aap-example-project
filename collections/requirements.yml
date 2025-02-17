@@ -1,7 +1,7 @@
 ---
 
 collections:
-  - name: community.general
+  - name: ansible.posix
   # - name: community.general
 
   # - name: https://github.com/ansible/galaxy_collection.git
