@@ -4,8 +4,8 @@ metadata:
 components:
   - container:
       args: ['tail', '-f', '/dev/null']
-      image: 'quay.io/mmitschk/custom_devspace:latest' # change for your EE
-      #image: 'quay.io/maxmitschke/custom_ee:latest' # change for your EE
+      #image: 'quay.io/mmitschk/custom_devspace:latest' # change for your EE
+      image: 'quay.io/mmitschk/custom_ee:latest' # change for your EE
       memoryRequest: 256M
       memoryLimit: 6Gi
       cpuRequest: 250m
