@@ -16,3 +16,5 @@
         password: "{{ password | default(omit) }}"
 
         api_key: "{{ api_key | default(omit) }}"
+
+        validate_certs: False
