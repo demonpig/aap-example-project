@@ -2,6 +2,7 @@
 
 collections:
   - name: ansible.posix
+  - name: kubernetes.core
   # - name: community.general
 
   # - name: https://github.com/ansible/galaxy_collection.git
