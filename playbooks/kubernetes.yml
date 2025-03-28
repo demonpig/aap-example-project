@@ -8,6 +8,7 @@
 
     - name: Get k8s cluster info
       kubernetes.core.k8s_cluster_info:
+        kubeconfig: '~/.kube/config'
         username: "{{ username | default(omit) }}"
         password: "{{ password | default(omit) }}"
         api_key: "{{ api_key | default(omit) }}"
