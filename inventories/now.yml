@@ -12,7 +12,8 @@ columns:
   - support_group
   - environment
 
-sysparm_limit: 1000
+sysparm_limit: 30000
+query_limit_columns: true
 
 compose:
   sn_name: name
