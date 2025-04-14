@@ -13,7 +13,7 @@ columns:
   - environment
 
 sysparm_limit: 30000
-query_limit_columns: false
+query_limit_columns: true
 
 compose:
   sn_name: name
