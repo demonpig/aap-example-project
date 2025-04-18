@@ -1,6 +1,6 @@
 ---
 
-collections: []
+# collections: []
   # - name: ansible.posix
   # - name: kubernetes.core
   # - name: servicenow.itsm
