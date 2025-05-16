@@ -1,0 +1,12 @@
+---
+
+- name: Ping Playbook with Pause
+  hosts: all
+
+  tasks:
+    - name: Connect to server
+      ansible.builtin.ping:
+
+    - name: Pause for debugging
+      ansible.builtin.pause:
+        seconds: 300
