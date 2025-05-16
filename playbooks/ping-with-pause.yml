@@ -4,9 +4,11 @@
   hosts: all
 
   tasks:
-    - name: Connect to server
-      ansible.builtin.ping:
-
-    - name: Pause for debugging
-      ansible.builtin.pause:
-        seconds: 300
+    - name: Block
+      block:
+        - name: Connect to server
+          ansible.builtin.ping:
+      always:
+        - name: Pause for debugging
+          ansible.builtin.pause:
+            seconds: 300
