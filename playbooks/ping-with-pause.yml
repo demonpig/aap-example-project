@@ -8,6 +8,7 @@
       block:
         - name: Connect to server
           ignore_errors: true
+          ignore_unreachable: true
           ansible.builtin.ping:
       always:
         - name: Pause for debugging
