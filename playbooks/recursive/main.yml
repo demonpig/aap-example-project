@@ -1,0 +1,17 @@
+---
+
+- name: Recursive Playbook
+  hosts: all
+  gather_facts: false
+
+  vars:
+    # How deep does the recursion go?
+    loop_count: 5
+
+  tasks:
+    - name: Set counter value
+      ansible.builtin.set_fact:
+        counter: 0
+
+    - name: Include file for recursion
+      ansible.builtin.include_tasks: tasks/loop.yml

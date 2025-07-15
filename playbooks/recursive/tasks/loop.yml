@@ -1,0 +1,13 @@
+---
+
+- name: Update counter value
+  ansible.builtin.set_fact:
+    counter: "{{ counter | int + 1 }}"
+
+- name: Display counter
+  ansible.builtin.debug:
+    var: counter
+
+- name: Loop count {{ counter }}
+  ansible.builtin.include_tasks: 'tasks/loop.yml'
+  when: counter | int < loop_count
