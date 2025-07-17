@@ -1,8 +1,0 @@
----
-
-- name: Example win_ping.yml playbook
-  hosts: all
-  
-  tasks:
-    - name: Check connectivity to Windows server
-      ansible.windows.win_ping:

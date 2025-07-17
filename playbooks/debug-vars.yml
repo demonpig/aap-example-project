@@ -1,7 +1,0 @@
----
-
-- name: Test
-  hosts: localhost
-  connection: local
-  tasks:
-    - debug: var=hostvars['localhost']

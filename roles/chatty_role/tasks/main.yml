@@ -1,8 +1,0 @@
----
-
-- name: Talk to me
-  ansible.builtin.debug:
-    msg: "{{ chatty_message }}"
-
-- name: Sleep
-  ansible.builtin.command: sleep {{ chatty_sleep }}s

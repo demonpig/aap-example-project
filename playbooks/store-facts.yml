@@ -1,9 +1,0 @@
----
-
-- name: Store custom facts
-  hosts: all
-  tasks:
-    - name: Set random facts and cache them
-      ansible.builtin.set_fact:
-        who_let_the_dogs_out: "Who, who, who, who, who?" # for 30 years, I never understood the meaning of this...
-        cacheable: true

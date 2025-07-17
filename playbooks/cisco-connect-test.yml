@@ -1,9 +1,0 @@
----
-
-- name: Test connection to cisco device
-  hosts: all
-  tasks:
-    - name: Show version testing
-      cisco.ios.ios_command:
-        commands: 
-          - show version

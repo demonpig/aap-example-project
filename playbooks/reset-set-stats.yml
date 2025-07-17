@@ -1,9 +1,0 @@
----
-
-- name: Reset the set_stats module
-  hosts: all
-  tasks:
-    - name: Reset the value
-      ansible.builtin.set_stats:
-        data:
-          yo_dawg: null

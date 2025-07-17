@@ -1,9 +1,0 @@
----
-
-- name: Hello World Playbook
-  hosts: all
-  tasks:
-    - name: Print message
-      ansible.builtin.command: echo "Hello World"
-      environment:
-        ANSIBLE_STDOUT_CALLBACK: community.general.yaml

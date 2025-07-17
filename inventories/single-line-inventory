@@ -1,3 +1,0 @@
-localhost ansible_host="127.0.0.1" _awx_description="test -- HOSTNAME"
-localhost2 ansible_host="127.0.0.1" _awx_description="test2 -- HOSTNAME"
-localhost3 ansible_host="127.0.0.1" _awx_description="test2 -- HOSTNAME"

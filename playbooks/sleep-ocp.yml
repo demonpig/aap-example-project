@@ -1,8 +1,0 @@
----
-
-- name: Testing OCP Job
-  hosts: all
-  tasks:
-    - ping:
-    - file: path=/tmp/test state=directory
-    - pause: seconds=60

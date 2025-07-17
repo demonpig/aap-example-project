@@ -1,9 +1,0 @@
----
-
-- name: Check uptime
-  hosts: all
-  gather_facts: false
-  serial: 1
-  tasks:
-    - name: Check uptime
-      ansible.builtin.command: uptime

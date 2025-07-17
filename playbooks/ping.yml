@@ -2,7 +2,8 @@
 
 - name: Ping Playbook
   hosts: all
+  gather_facts: false
 
   tasks:
-    - name: Connect to server
+    - name: Run ping module
       ansible.builtin.ping:

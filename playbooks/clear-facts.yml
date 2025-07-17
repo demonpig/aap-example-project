@@ -1,6 +1,0 @@
----
-
-- name: Clear whatever facts are stored
-  hosts: all
-  tasks:
-    - meta: clear_facts
