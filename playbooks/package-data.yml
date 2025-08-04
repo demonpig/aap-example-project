@@ -6,10 +6,11 @@
 
   tasks:
     - name: Gather Facts
-      timeout: 20
+      timeout: 10
       ansible.builtin.setup:
 
     - name: Get Package Data
+      timeout: 10
       ansible.builtin.package_facts:
 
     - name: Display Packages
