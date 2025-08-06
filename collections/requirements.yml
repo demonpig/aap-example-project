@@ -1,7 +1,7 @@
 ---
 
 collections:
-  - name: ansible.posix
+  - name: community.general
   # - name: ansible.posix
   # - name: kubernetes.core
   # - name: servicenow.itsm
