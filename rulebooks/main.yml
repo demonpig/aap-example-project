@@ -15,3 +15,11 @@
         run_job_template:
           name: Ping
           organization: Default
+
+    - name: Hello Condition 2
+      condition: event.payload.message == "hello"
+      action:
+        run_job_template:
+          name: Ping
+          organization: Default
+
