@@ -1,0 +1,22 @@
+---
+
+- name: Testing Vars Prompt on AAP
+  hosts: all
+  gather_facts: false
+
+  vars_prompt:
+    - name: cr_number
+      prompt: What is the cr_number
+      private: false
+
+    - name: cr_number2
+      prompt: What is the cr_number2
+      private: false
+
+  tasks:
+    - name: Gather facts
+      ansible.builtin.setup:
+
+    - name: Display facts
+      ansible.builtin.debug:
+        var: ansible_facts
