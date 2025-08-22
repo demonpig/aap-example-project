@@ -8,7 +8,7 @@
     - name: Create a new token using username/password
       ansible.controller.token:
         description: Temp token
-        scope: write
+        scope: read
         state: present
         controller_username: "{{ api_username }}"
         controller_password: "{{ api_password }}"
