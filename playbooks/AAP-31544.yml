@@ -22,10 +22,12 @@
 
     - name: List running jobs
       register: testing_jobs
+      when: ansible_facts['controller_token'] is defined and
+            ansible_facts['controller_token']['token'] is defined
       ansible.controller.job_list:
         status: successful
         query:
           playbook: "playbooks/ping.yml"
-        aap_token: "{{ controller_token.get('token', '') }}"
+        aap_token: "{{ ansible_facts['controller_token']['token'] }}"
         controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
         validate_certs: false
