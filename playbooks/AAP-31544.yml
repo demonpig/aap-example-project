@@ -15,12 +15,17 @@
         controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
         validate_certs: false
 
+    - name: Debug token
+      ansible.builtin.debug:
+        var: controller_token
+        verbosity: 3
+
     - name: List running jobs
       register: testing_jobs
       ansible.controller.job_list:
         status: successful
         query:
           playbook: "playbooks/ping.yml"
-        aap_token: "{{ controller_token }}"
+        aap_token: "{{ controller_token.get('token', '') }}"
         controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
         validate_certs: false
