@@ -15,19 +15,21 @@
         controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
         validate_certs: false
 
-    - name: Debug token
-      ansible.builtin.debug:
-        var: controller_token
-        verbosity: 3
-
-    - name: List running jobs
-      register: testing_jobs
+    - name: Call Automation Controller API
       when: ansible_facts['controller_token'] is defined and
             ansible_facts['controller_token']['token'] is defined
-      ansible.controller.job_list:
-        status: successful
-        query:
-          playbook: "playbooks/ping.yml"
-        aap_token: "{{ ansible_facts['controller_token']['token'] }}"
-        controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
-        validate_certs: false
+      block:
+        - name: Debug token
+          ansible.builtin.debug:
+            var: ansible_facts['controller_token']['token']
+            verbosity: 3
+
+        - name: List running jobs
+          register: testing_jobs
+          ansible.controller.job_list:
+            status: successful
+            query:
+              playbook: "playbooks/ping.yml"
+            aap_token: "{{ ansible_facts['controller_token']['token'] }}"
+            controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
+            validate_certs: false
