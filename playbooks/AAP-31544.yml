@@ -6,22 +6,21 @@
 
   tasks:
     - name: Create a new token using username/password
-      ansible.controller.token:
+      ansible.platform.token:
         description: Temp token
         scope: read
         state: present
-        controller_username: "{{ api_username }}"
-        controller_password: "{{ api_password }}"
-        controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
+        aap_username: "{{ api_username }}"
+        aap_password: "{{ api_password }}"
+        aap_hostname: "{{ tower_host | default('http://127.0.0.1') }}"
         validate_certs: false
 
     - name: Call Automation Controller API
-      when: ansible_facts['controller_token'] is defined and
-            ansible_facts['controller_token']['token'] is defined
+      when: ansible_facts['aap_token'] is defined
       block:
         - name: Debug token
           ansible.builtin.debug:
-            var: ansible_facts['controller_token']['token']
+            var: ansible_facts['aap_token']
             verbosity: 3
 
         - name: List running jobs
@@ -30,6 +29,6 @@
             status: successful
             query:
               playbook: "playbooks/ping.yml"
-            aap_token: "{{ ansible_facts['controller_token']['token'] }}"
+            aap_token: "{{ ansible_facts['aap_token'] }}"
             controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
             validate_certs: false
