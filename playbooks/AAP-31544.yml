@@ -16,7 +16,8 @@
         validate_certs: false
 
     - name: Call Automation Controller API
-      when: ansible_facts['aap_token'] is defined
+      when: ansible_facts['aap_token'] is defined and
+            ansible_facts['aap_token']['token'] is defined
       block:
         - name: Debug token
           ansible.builtin.debug:
@@ -29,6 +30,6 @@
             status: successful
             query:
               playbook: "playbooks/ping.yml"
-            aap_token: "{{ ansible_facts['aap_token'] }}"
+            aap_token: "{{ ansible_facts['aap_token']['token'] }}"
             controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
             validate_certs: false
