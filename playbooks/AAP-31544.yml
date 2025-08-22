@@ -19,13 +19,9 @@
       when: ansible_facts['aap_token'] is defined and
             ansible_facts['aap_token']['token'] is defined
       block:
-        - name: Debug token
-          ansible.builtin.debug:
-            var: ansible_facts['aap_token']
-            verbosity: 3
-
         - name: List running jobs
           register: testing_jobs
+          ignore_errors: true
           ansible.controller.job_list:
             status: successful
             query:
@@ -33,3 +29,8 @@
             aap_token: "{{ ansible_facts['aap_token']['token'] }}"
             controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
             validate_certs: false
+
+        - name: Debug token
+          ansible.builtin.debug:
+            var: ansible_facts['aap_token']
+            verbosity: 3
