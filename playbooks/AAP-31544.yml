@@ -28,6 +28,7 @@
               playbook: "playbooks/ping.yml"
             aap_token: "{{ ansible_facts['aap_token']['token'] }}"
             controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
+            controller_username: "{{ api_username }}"
             validate_certs: false
 
         - name: Debug token
