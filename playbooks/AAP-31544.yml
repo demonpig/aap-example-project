@@ -1,0 +1,26 @@
+---
+
+- name: Testing playbook for create token
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Create a new token using username/password
+      ansible.controller.token:
+        description: Temp token
+        scope: write
+        state: present
+        controller_username: "{{ api_username }}"
+        controller_password: "{{ api_password }}"
+        controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
+        validate_certs: false
+
+    - name: List running jobs
+      register: testing_jobs
+      ansible.controller.job_list:
+        status: successful
+        query:
+          playbook: "playbooks/ping.yml"
+        controller_oauthtoken: "{{ controller_token }}"
+        controller_host: "{{ tower_host | default('http://127.0.0.1') }}"
+        validate_certs: false
