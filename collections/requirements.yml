@@ -1,6 +1,6 @@
 ---
 
-collections: []
+collections:
   - name: https://github.com/demonpig/demonpig.test.git
     version: main
     type: git
