@@ -1,6 +1,6 @@
 ---
 
-- name: Check if server needs-restarting
+- name: Check various uses of needs-restarting
   hosts: all
   gather_facts: false
 
@@ -11,26 +11,56 @@
           - '!all'
           - 'min'
 
-    - name: Run needs-restarting
-      register: needs_rst
-      ansible.builtin.shell: | 
-        set -o pipefail
-        env
-        needs-restarting -r
+    - name: Calling needs-restarting
+      block:
+        - name: Check the environment variables when executing needs-restarting
+          ignore_errors: true
+          ansible.builtin.shell: |
+            set -o pipefile
+            env
+            needs-restarting -r
 
-    - name: Run dnf needs-restarting
-      register: dnf_ndds_rst
-      ansible.builtin.shell: |
-        set -o pipefail
-        env
-        dnf needs-restarting -r
+        - name: Pass in the PATH environment variable
+          ignore_errors: true
+          environment:
+            PATH: "{{ ansible_facts['env']['PATH'] }}:/usr/bin"
+          ansible.builtin.shell: |
+            set -o pipefail
+            env
+            needs-restarting -r
 
-    - name: Run needs-restarting
-      ansible.builtin.shell: |
-        bash -lc "needs-restarting -r"
+    - name: Calling dnf
+      block:
+        - name: Check the environment variables when executing dnf needs-restarting
+          ignore_errors: true
+          ansible.builtin.shell: |
+            set -o pipefile
+            env
+            dnf needs-restarting -r
 
-    - name: Run needs-restarting
-      environment:
-        PATH: "{{ ansible_facts['env']['PATH'] }}:/usr/bin"
-      ansible.builtin.shell: |
-        needs-restarting -r
+        - name: Pass in the PATH environment variable
+          ignore_errors: true
+          environment:
+            PATH: "{{ ansible_facts['env']['PATH'] }}:/usr/bin"
+          ansible.builtin.shell: |
+            set -o pipefail
+            env
+            dnf needs-restarting -r
+
+    - name: Call bash -lc
+      block:
+        - name: Check the environment variables when executing bash -lc 'needs-restarting'
+          ignore_errors: true
+          ansible.builtin.shell: |
+            set -o pipefile
+            env
+            bash -lc "needs-restarting -r"
+
+        - name: Pass in the PATH environment variable
+          ignore_errors: true
+          environment:
+            PATH: "{{ ansible_facts['env']['PATH'] }}:/usr/bin"
+          ansible.builtin.shell: |
+            set -o pipefail
+            env
+            bash -lc "needs-restarting -r"
