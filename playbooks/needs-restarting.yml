@@ -1,0 +1,24 @@
+---
+
+- name: Check if server needs-restarting
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Gather minimal facts
+      ansible.builtin.setup:
+        gather_subset:
+          - '!all'
+          - 'min'
+
+    - name: Run needs-restarting
+      register: needs_rst
+      ansible.builtin.shell: | 
+        set -o pipefail
+        needs-restarting -r
+
+    - name: Run dnf needs-restarting
+      register: dnf_ndds_rst
+      ansible.builtin.shell: |
+        set -o pipefail
+        dnf needs-restarting -r
