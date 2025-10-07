@@ -16,7 +16,7 @@
         - name: Check the environment variables when executing needs-restarting
           ignore_errors: true
           ansible.builtin.shell: |
-            set -o pipefile
+            set -o pipefail
             env
             needs-restarting -r
 
@@ -34,7 +34,7 @@
         - name: Check the environment variables when executing dnf needs-restarting
           ignore_errors: true
           ansible.builtin.shell: |
-            set -o pipefile
+            set -o pipefail
             env
             dnf needs-restarting -r
 
@@ -52,7 +52,7 @@
         - name: Check the environment variables when executing bash -lc 'needs-restarting'
           ignore_errors: true
           ansible.builtin.shell: |
-            set -o pipefile
+            set -o pipefail
             env
             bash -lc "needs-restarting -r"
 
