@@ -15,10 +15,22 @@
       register: needs_rst
       ansible.builtin.shell: | 
         set -o pipefail
+        env
         needs-restarting -r
 
     - name: Run dnf needs-restarting
       register: dnf_ndds_rst
       ansible.builtin.shell: |
         set -o pipefail
+        env
         dnf needs-restarting -r
+
+    - name: Run needs-restarting
+      ansible.buitlin.shell: |
+        bash -lc "needs-restarting -r"
+
+    - name: Run needs-restarting
+      environment:
+        PATH: "{{ ansible_facts['env']['PATH'] }}:/usr/bin"
+      ansible.builtin.shell: |
+        needs-restarting -r
