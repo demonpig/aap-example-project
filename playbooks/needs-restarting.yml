@@ -26,7 +26,7 @@
         dnf needs-restarting -r
 
     - name: Run needs-restarting
-      ansible.buitlin.shell: |
+      ansible.builtin.shell: |
         bash -lc "needs-restarting -r"
 
     - name: Run needs-restarting
