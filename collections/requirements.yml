@@ -1,12 +1,12 @@
 ---
 
 collections:
-  - name: https://github.com/demonpig/demonpig.test.git
-    version: main
-    type: git
-  - name: https://github.com/demonpig/demonpig.test2.git
-    version: main
-    type: git
-  - name: https://github.com/demonpig/demonpig.test3.git
-    version: main
-    type: git
+#  - name: https://github.com/demonpig/demonpig.test.git
+#    version: main
+#    type: git
+#  - name: https://github.com/demonpig/demonpig.test2.git
+#    version: main
+#    type: git
+#  - name: https://github.com/demonpig/demonpig.test3.git
+#    version: main
+#    type: git
