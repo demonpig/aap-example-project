@@ -1,0 +1,18 @@
+---
+
+- name: Gather system facts
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Gather facts
+      timeout: 60
+      ansible.builtin.setup:
+
+    - name: Gat package facts
+      timeout: 60
+      ansible.builtin.package_facts:
+
+    - name: Get service facts
+      timeout: 60
+      ansible.builtin.service_facts:
