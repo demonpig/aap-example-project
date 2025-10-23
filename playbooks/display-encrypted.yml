@@ -1,0 +1,9 @@
+---
+
+- name: Display encrypted field
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: test
+      ansible.builtin.debug:
+        var: hostvars[inventory_hostname]
