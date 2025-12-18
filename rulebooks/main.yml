@@ -10,6 +10,11 @@
     - name: test
       ansible.eda.event_stream:
         name: TEST
+        postgres_params:
+          keepalives: 1           # Turn on keepalives
+          keepalives_idle: 60     # Seconds of inactivity before sending a keepalive
+          keepalives_interval: 10 # Seconds to wait for a response
+          keepalives_count: 5     # Number of failed attempts before disconnecting
         
   rules:
     - name: Hello Condition
