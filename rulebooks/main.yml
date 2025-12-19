@@ -4,25 +4,17 @@
   hosts: all
   
   sources:
-    #- ansible.eda.webhook:
-    #    host: 0.0.0.0
-    #    port: 9091
     - name: test
       ansible.eda.event_stream:
         name: TEST
-        postgres_params:
-          keepalives: 1           # Turn on keepalives
-          keepalives_idle: 60     # Seconds of inactivity before sending a keepalive
-          keepalives_interval: 10 # Seconds to wait for a response
-          keepalives_count: 5     # Number of failed attempts before disconnecting
-        
+
   rules:
-    - name: Hello Condition
-      condition: event.payload.message == "hello"
+    - name: Keepalive Action
+      condition: event.payload.message == "KEEPALIVE"
       action:
-        run_job_template:
-          name: Ping
-          organization: Default
+        debug:
+          msg:
+            - Keepalive payload received
 
     - name: Hello Condition 2
       condition: event.payload.message == "hello"
@@ -30,4 +22,3 @@
         run_job_template:
           name: Ping
           organization: Default
-
