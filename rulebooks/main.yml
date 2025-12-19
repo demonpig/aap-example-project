@@ -9,12 +9,12 @@
         name: TEST
 
   rules:
-    - name: Keepalive Action
+    - name: TAIIA - Backend Statements
       condition: event.payload.message == "KEEPALIVE"
-      action:
-        debug:
-          msg:
-            - Keepalive payload received
+      actions:
+        - debug:
+            msg: Keepalive payload received
+        - halt:
 
     - name: Hello Condition 2
       condition: event.payload.message == "hello"
