@@ -1,0 +1,20 @@
+---
+
+- name: Generic new poll for new records in ServiceNow
+  hosts: all
+  sources:
+    - name: Watch for any updated table
+      servicenow.itsm.records:
+        table: incident
+        interval: 1
+        timezone: America/New_York
+        remote_servicenow_timezone: America/Los_Angeles
+        timestamp_field: sys_created_on
+        updated_since: "2026-01-01 00:00:00"
+
+  rules:
+    - name: print all events
+      condition: true
+      actions:
+        - print_event:
+            pretty: true
