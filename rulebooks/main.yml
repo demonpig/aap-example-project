@@ -9,15 +9,18 @@
         name: TEST
 
   rules:
-    - name: TAIIA - Backend Statements
-      condition: event.payload.message == "KEEPALIVE"
+    - name: print all events
+      condition: true
       actions:
-        - debug:
-            msg: Keepalive payload received
-        - halt:
+        - print_event:
+            pretty: true
 
     - name: Hello Condition 2
-      condition: event.payload.message == "hello"
+      condition: >
+        event.body is defined and
+        event.body[1] is defined and
+        event.body[1].jobId is defined and
+        event.body[1].interfaceName is defined
       action:
         run_job_template:
           name: Ping
