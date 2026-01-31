@@ -9,18 +9,18 @@
         name: TEST
 
   rules:
-    - name: print all events
-      condition: true
-      actions:
-        - print_event:
-            pretty: true
+    - name: Capture event data
+      condition: event.payload is defined
+      action:
+        set_fact:
+          body: "{{ event.payload['body'] | default([]) }}"
 
     - name: Hello Condition 2
       condition: >
-        event.body is defined and
-        event.body[1] is defined and
-        event.body[1].jobId is defined and
-        event.body[1].interfaceName is defined
+        facts.body is defined and
+        facts.body[1] is defined and
+        facts.body[1].jobId is defined and
+        facts.body[1].interfaceName is defined
       action:
         run_job_template:
           name: Ping
