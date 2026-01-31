@@ -13,7 +13,8 @@
       condition: event.payload is defined
       action:
         set_fact:
-          body: "{{ event.payload['body'] | default([]) }}"
+          fact:
+            body: "{{ event.payload['body'] | default([]) }}"
 
     - name: Hello Condition 2
       condition: >
