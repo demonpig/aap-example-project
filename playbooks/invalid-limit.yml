@@ -1,0 +1,26 @@
+---
+
+- name: Invalid limit
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Add windows hosts to windows group
+      ansible.builtin.add_host:
+        name: "{{ inventory_hostname }}"
+        groups: windows
+      tags: always
+      when: sku is search('Windows')
+
+    - name: Add linux hosts to linux group
+      ansible.builtin.add_host:
+        name: "{{ inventory_hostname }}"
+        groups: linux
+      tags: always
+      when: sky is search('Linux')
+
+- name: Another Play?
+  hosts: linux
+  gather_facts: true
+  tasks:
+    - ansible.builtin.ping:
