@@ -19,6 +19,16 @@
       tags: always
       when: sku is search('Linux')
 
+    - debug:
+        var: ansible_play_hosts
+
+- name: Another Play?
+  hosts: all
+  gather_facts: false
+  tasks:
+    - debug:
+        var: ansible_play_hosts
+
 - name: Another Play?
   hosts: linux
   gather_facts: true
