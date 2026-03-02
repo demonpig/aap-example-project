@@ -1,0 +1,23 @@
+---
+
+- name: Hello Variable Rulebook
+  hosts: all
+
+  sources:
+    - name: test
+      ansible.eda.event_stream:
+        name: TEST
+
+  rules:
+    - name: Hello {{ service_name }}
+      condition: >
+        event.payload.body is defined and
+        event.payload.body[1] is defined and
+        event.payload.body[1].jobId is defined and
+        event.payload.body[1].interfaceName is defined
+      actions:
+        - print_event:
+            pretty: true
+        - run_job_template:
+            name: Ping
+            organization: Default
