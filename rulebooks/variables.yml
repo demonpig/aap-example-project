@@ -9,15 +9,10 @@
         name: TEST
 
   rules:
-    - name: Hello {{ service_name }}
+    - name: Hello test
       condition: >
-        event.payload.body is defined and
-        event.payload.body[1] is defined and
-        event.payload.body[1].jobId is defined and
-        event.payload.body[1].interfaceName is defined
+        service_name is defined and
+        service_name == 'hello'
       actions:
         - print_event:
             pretty: true
-        - run_job_template:
-            name: Ping
-            organization: Default
