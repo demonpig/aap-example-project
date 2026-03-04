@@ -1,6 +1,9 @@
 ---
 
-collections: []
+collections:
+  - name: community.general
+  - name: ansible.posix
+  - name: ansible.windows
 #  - name: https://github.com/demonpig/demonpig.test.git
 #    version: main
 #    type: git
