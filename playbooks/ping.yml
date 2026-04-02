@@ -2,6 +2,7 @@
 
 - name: Ping Playbook
   hosts: all
+  gather_facts: "{{ pb_gather_facts | d(False) | bool }}"
 
   tasks:
     - name: Connect to server
