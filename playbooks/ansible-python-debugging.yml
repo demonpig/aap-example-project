@@ -82,8 +82,7 @@
   gather_facts: false
   become: false
   tasks:
-    - name: RHEL-only — sleep infinity
-      when: ansible_os_family == 'RedHat'
-      block:
-        - name: Sleep forever (async so Ansible does not wait forever)
-          ansible.builtin.command: sleep infinity
+    - name: Sleep forever (async so Ansible does not wait forever)
+      ansible.builtin.shell: |
+        echo "sleeping..."
+        sleep infinity
