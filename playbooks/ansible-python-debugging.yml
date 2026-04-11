@@ -1,22 +1,49 @@
 ---
-# Two-play demo for RHEL family only (ansible_os_family == RedHat):
-# (1) detect Python on target and install python<major>.<minor>-debug via dnf;
-# (2) start sleep infinity (async so the play returns).
+# RHEL 9 / RHEL 10 (Red Hat Enterprise Linux only for CRB + doc-aligned flow):
+# (1) Enable CRB (CodeReady Builder), then install Python 3 debug symbols.
+# (2) Sleep infinity (async so the play returns).
 #
-# Non-RHEL hosts in inventory are skipped for all tasks (gather_facts still runs).
-# RHEL package names are like: python3.12-debug (AppStream / CRB may be required).
+# Standard path (default): dnf debuginfo-install python3
+# Alternative: set python_debug_use_interpreter_debug_rpm: true to install
+#   python3.Y-debug (e.g. python3.9-debug on RHEL 9, python3.12-debug on RHEL 10)
+#   matching the detected interpreter version.
+#
+# Non-RHEL hosts: tasks in the block are skipped (gather_facts still runs on all).
+# CRB enable uses subscription-manager and runs only on ansible_distribution == RedHat.
 
-- name: Detect Python version and install debug symbols package
+- name: Detect Python version and install Python 3 debug symbols (RHEL 9+ flow)
   hosts: all
   gather_facts: true
   become: true
   vars:
     py_cmd: "{{ ansible_python_interpreter | default(ansible_facts['python']['executable'] | default('/usr/bin/python3')) }}"
+    # false: dnf debuginfo-install python3 (recommended). true: dnf install python3.Y-debug
+    python_debug_use_interpreter_debug_rpm: false
   tasks:
-    - name: RHEL-only — version check and debug package install
+    - name: RHEL family — CRB, version report, and debug install
       when: ansible_os_family == 'RedHat'
       block:
-        - name: Resolve Python major.minor (e.g. 3.12)
+        - name: Enable CRB repository (subscription-manager, RHEL 9+)
+          ansible.builtin.command:
+            argv:
+              - subscription-manager
+              - repos
+              - --enable
+              - "codeready-builder-for-rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}-rpms"
+          register: crb_enable
+          when:
+            - ansible_distribution == 'RedHat'
+            - ansible_distribution_major_version | int >= 9
+          changed_when: >-
+            crb_enable.rc == 0
+            and ('already enabled' not in crb_enable.stdout | default('') | lower)
+            and ('already enabled' not in crb_enable.stderr | default('') | lower)
+          failed_when: >-
+            crb_enable.rc != 0
+            and ('already enabled' not in crb_enable.stdout | default('') | lower)
+            and ('already enabled' not in crb_enable.stderr | default('') | lower)
+
+        - name: Resolve Python major.minor (e.g. 3.12 on RHEL 10)
           ansible.builtin.command:
             argv:
               - "{{ py_cmd }}"
@@ -27,12 +54,28 @@
 
         - name: Show Python version in use on managed host
           ansible.builtin.debug:
-            msg: "Managed host Python version: {{ python_mm.stdout }}"
+            msg: >-
+              Managed host: {{ ansible_distribution }} {{ ansible_distribution_version }}
+              — Python {{ python_mm.stdout }} (default / platform convention follows RHEL 9/10 docs).
 
-        - name: Install python version-specific debug package (RHEL / Fedora family)
+        - name: Install Python 3 debuginfo symbols (dnf debuginfo-install python3)
+          ansible.builtin.command:
+            argv:
+              - dnf
+              - debuginfo-install
+              - "-y"
+              - python3
+          register: dnf_debuginfo
+          when: not (python_debug_use_interpreter_debug_rpm | bool)
+          changed_when: >-
+            dnf_debuginfo.rc == 0 and
+            ('Nothing to do' not in dnf_debuginfo.stdout | default(''))
+
+        - name: Install version-specific Python debug interpreter package (python3.Y-debug)
           ansible.builtin.dnf:
             name: "python{{ python_mm.stdout }}-debug"
             state: present
+          when: python_debug_use_interpreter_debug_rpm | bool
 
 - name: Run sleep infinity on managed hosts
   hosts: all
