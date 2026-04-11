@@ -87,5 +87,3 @@
       block:
         - name: Sleep forever (async so Ansible does not wait forever)
           ansible.builtin.command: sleep infinity
-          async: 31536000
-          poll: 0
