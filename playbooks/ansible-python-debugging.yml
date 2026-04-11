@@ -1,0 +1,48 @@
+---
+# Two-play demo for RHEL family only (ansible_os_family == RedHat):
+# (1) detect Python on target and install python<major>.<minor>-debug via dnf;
+# (2) start sleep infinity (async so the play returns).
+#
+# Non-RHEL hosts in inventory are skipped for all tasks (gather_facts still runs).
+# RHEL package names are like: python3.12-debug (AppStream / CRB may be required).
+
+- name: Detect Python version and install debug symbols package
+  hosts: all
+  gather_facts: true
+  become: true
+  vars:
+    py_cmd: "{{ ansible_python_interpreter | default(ansible_facts['python']['executable'] | default('/usr/bin/python3')) }}"
+  tasks:
+    - name: RHEL-only — version check and debug package install
+      when: ansible_os_family == 'RedHat'
+      block:
+        - name: Resolve Python major.minor (e.g. 3.12)
+          ansible.builtin.command:
+            argv:
+              - "{{ py_cmd }}"
+              - "-c"
+              - "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))"
+          register: python_mm
+          changed_when: false
+
+        - name: Show Python version in use on managed host
+          ansible.builtin.debug:
+            msg: "Managed host Python version: {{ python_mm.stdout }}"
+
+        - name: Install python version-specific debug package (RHEL / Fedora family)
+          ansible.builtin.dnf:
+            name: "python{{ python_mm.stdout }}-debug"
+            state: present
+
+- name: Run sleep infinity on managed hosts
+  hosts: all
+  gather_facts: false
+  become: false
+  tasks:
+    - name: RHEL-only — sleep infinity
+      when: ansible_os_family == 'RedHat'
+      block:
+        - name: Sleep forever (async so Ansible does not wait forever)
+          ansible.builtin.command: sleep infinity
+          async: 31536000
+          poll: 0
